@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductSpec } from './product-spec.entity';
-import { Tag } from 'src/modules/tag/domain/entities/tag.entity';
+import { Tag } from 'src/modules/tag/entities/tag.entity';
 
 @Entity('products')
 export class Product {

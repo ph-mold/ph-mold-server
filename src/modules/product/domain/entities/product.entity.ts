@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
@@ -14,22 +15,22 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'product_code' })
-  productCode: string;
+  @Column({ name: 'code', unique: true })
+  code: string;
 
   @Column()
   name: string;
 
-  @Column({ name: 'main_category' })
+  @Column({ name: 'main_category', nullable: true })
   mainCategory: string;
 
-  @Column({ name: 'sub_category' })
+  @Column({ name: 'sub_category', nullable: true })
   subCategory: string;
 
-  @Column()
+  @Column({ nullable: true })
   material: string;
 
-  @Column({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @OneToMany(() => ProductSpec, (spec) => spec.product, { cascade: true })

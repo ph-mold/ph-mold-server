@@ -12,11 +12,11 @@ export class ProductSpec {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'spec_type' })
-  specType: string;
+  @Column({ name: 'type' })
+  type: string;
 
-  @Column({ name: 'spec_value' })
-  specValue: string;
+  @Column({ name: 'value' })
+  value: string;
 
   @ManyToOne(() => Product, (product) => product.specs, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'product_id' })

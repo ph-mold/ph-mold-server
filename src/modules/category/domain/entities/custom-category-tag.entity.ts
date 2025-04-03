@@ -1,29 +1,21 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { CustomCategory } from './custom-category.entity';
 import { Tag } from 'src/modules/tag/domain/entities/tag.entity';
 
 @Entity('custom_category_tags')
 export class CustomCategoryTag {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ name: 'custom_category_id' })
+  @PrimaryColumn({ name: 'custom_category_id' })
   customCategoryId: number;
 
-  @Column({ name: 'tag_id' })
+  @PrimaryColumn({ name: 'tag_id' })
   tagId: number;
 
-  @ManyToOne(() => CustomCategory)
+  // 선택적 관계 설정
+  @ManyToOne(() => CustomCategory, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'custom_category_id' })
   customCategory: CustomCategory;
 
-  @ManyToOne(() => Tag)
+  @ManyToOne(() => Tag, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'tag_id' })
   tag: Tag;
 }

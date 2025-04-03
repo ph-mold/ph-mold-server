@@ -1,6 +1,7 @@
 import { Tag } from 'src/modules/tag/domain/entities/tag.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
@@ -18,7 +19,7 @@ export class CustomCategory {
   @Column({ name: 'created_by' })
   createdBy: number;
 
-  @Column({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @ManyToMany(() => Tag, (tag) => tag.customCategories, { cascade: true })

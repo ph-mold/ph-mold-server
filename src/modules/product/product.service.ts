@@ -6,8 +6,13 @@ import { Product } from './entities/product.entity';
 export class ProductService {
   constructor(private readonly productRepo: ProductRepository) {}
 
-  async getProductsByTagKeys(tagKeys: string[]): Promise<Product[]> {
-    if (!tagKeys.length) return [];
-    return this.productRepo.findByTagKeys(tagKeys);
+  async getProductsByTagKeys({
+    include,
+    exclude,
+  }: {
+    include: string[];
+    exclude?: string[];
+  }): Promise<Product[]> {
+    return this.productRepo.findByTagKeys(include, exclude ?? []);
   }
 }

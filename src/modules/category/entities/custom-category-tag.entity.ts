@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { CustomCategory } from './custom-category.entity';
 import { Tag } from 'src/modules/tag/entities/tag.entity';
 
@@ -9,6 +9,9 @@ export class CustomCategoryTag {
 
   @PrimaryColumn({ name: 'tag_id' })
   tagId: number;
+
+  @Column({ type: 'enum', enum: ['include', 'exclude'], default: 'include' })
+  type: 'include' | 'exclude';
 
   // 선택적 관계 설정
   @ManyToOne(() => CustomCategory, { onDelete: 'CASCADE' })

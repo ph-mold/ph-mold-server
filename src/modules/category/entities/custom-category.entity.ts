@@ -3,8 +3,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -19,11 +21,18 @@ export class CustomCategory {
   @Column()
   name: string;
 
-  @Column({ name: 'created_by' })
+  @Column({ name: 'parent_id', nullable: true })
+  parentId?: number;
+
+  @Column({ name: 'created_by', nullable: true })
   createdBy: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
+
+  @ManyToOne(() => CustomCategory, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'parent_id' })
+  parent?: CustomCategory;
 
   @ManyToMany(() => Tag, (tag) => tag.customCategories, { cascade: true })
   @JoinTable({

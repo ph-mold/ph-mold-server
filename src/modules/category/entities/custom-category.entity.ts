@@ -7,8 +7,10 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { CustomCategoryTag } from './custom-category-tag.entity';
 
 @Entity('custom_categories')
 export class CustomCategory {
@@ -41,4 +43,7 @@ export class CustomCategory {
     inverseJoinColumn: { name: 'tag_id', referencedColumnName: 'id' },
   })
   tags: Tag[];
+
+  @OneToMany(() => CustomCategoryTag, (ct) => ct.customCategory)
+  customCategoryTags: CustomCategoryTag[];
 }

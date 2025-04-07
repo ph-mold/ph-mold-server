@@ -1,35 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from '../product/entities/product.entity';
 import { Repository } from 'typeorm';
+import { CustomCategory } from './entities/custom-category.entity';
+import { CustomCategoryTag } from './entities/custom-category-tag.entity';
 
 @Injectable()
 export class CategoryRepository {
   constructor(
-    @InjectRepository(Product)
-    private readonly productRepo: Repository<Product>,
+    @InjectRepository(CustomCategory)
+    private readonly customCategoryRepo: Repository<CustomCategory>,
+    @InjectRepository(CustomCategoryTag)
+    private readonly customCategoryTagRepo: Repository<CustomCategoryTag>,
   ) {}
 
-  async findDistinctMainCategories(): Promise<string[]> {
-    const rows = await this.productRepo
-      .createQueryBuilder('product')
-      .select('DISTINCT product.mainCategory', 'mainCategory')
-      .getRawMany();
-
-    return (rows as Product[]).map((row) => row.mainCategory);
+  async findRootCategories(): Promise<CustomCategory[]> {
+    return this.customCategoryRepo.find({
+      where: { parentId: null },
+      order: { createdAt: 'ASC' },
+    });
   }
+  async findChildrenByKey(parentKey: string): Promise<CustomCategory[]> {
+    const parent = await this.customCategoryRepo.findOne({
+      where: { key: parentKey },
+    });
+    if (!parent) throw new Error('Parent category not found');
 
-  async findDistinctSubCategories(mainCategory?: string): Promise<string[]> {
-    const query = this.productRepo
-      .createQueryBuilder('product')
-      .select('DISTINCT product.subCategory', 'subCategory');
-
-    if (mainCategory) {
-      query.where('product.mainCategory = :main', { main: mainCategory });
-    }
-
-    const rows = await query.getRawMany();
-
-    return (rows as Product[]).map((row) => row.subCategory);
+    return this.customCategoryRepo.find({
+      where: { parentId: parent.id },
+      order: { createdAt: 'ASC' },
+    });
+  }
+  async findOneWithTagsByKey(key: string): Promise<CustomCategory | null> {
+    return this.customCategoryRepo.findOne({
+      where: { key },
+      relations: ['customCategoryTags', 'customCategoryTags.tag'],
+    });
   }
 }

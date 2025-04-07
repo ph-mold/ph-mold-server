@@ -13,5 +13,6 @@ import { CategoryRepository } from './category.repository';
   ],
   providers: [CategoryService, CategoryRepository],
   controllers: [CategoryController],
+  exports: [CategoryService],
 })
 export class CategoryModule {}

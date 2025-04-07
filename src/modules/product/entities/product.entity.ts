@@ -15,7 +15,10 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'code', unique: true })
+  @Column({ unique: true })
+  key: string;
+
+  @Column({ unique: true })
   code: string;
 
   @Column()

@@ -1,10 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CategoryRepository } from './category.repository';
 import { CustomCategory } from './entities/custom-category.entity';
+import { CreateCustomCategoryDto } from './dto';
+import { TagRepository } from '../tag/tag.repositroy';
 
 @Injectable()
 export class CategoryService {
-  constructor(private readonly categoryRepo: CategoryRepository) {}
+  constructor(
+    private readonly categoryRepo: CategoryRepository,
+    private readonly tagRepo: TagRepository,
+  ) {}
 
   async getRootCategories(): Promise<CustomCategory[]> {
     return this.categoryRepo.findRootCategories();
@@ -32,5 +41,23 @@ export class CategoryService {
     }
 
     return { include, exclude };
+  }
+
+  async create(
+    dto: CreateCustomCategoryDto,
+    imageUrl?: string,
+  ): Promise<CustomCategory> {
+    const tagKeys = dto.tags.map((t) => t.tagKey);
+    const tags = await this.tagRepo.findByKeys(tagKeys);
+
+    const foundKeys = tags.map((t) => t.key);
+    const missing = tagKeys.filter((k) => !foundKeys.includes(k));
+
+    if (missing.length > 0) {
+      throw new BadRequestException(
+        `존재하지 않는 태그 키: ${missing.join(', ')}`,
+      );
+    }
+    return this.categoryRepo.create(dto, imageUrl ?? null, tags);
   }
 }

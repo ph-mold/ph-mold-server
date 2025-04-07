@@ -13,6 +13,9 @@ export class CustomCategory {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ unique: true })
+  key: string;
+
   @Column()
   name: string;
 

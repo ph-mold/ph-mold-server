@@ -5,7 +5,7 @@ import { join } from 'path';
 
 function generateFilename(categoryKey: string): string {
   const today = dayjs().format('YYYYMMDD');
-  const folder = join('uploads/categories', categoryKey);
+  const folder = join('contents/categories', categoryKey);
   if (!existsSync(folder)) mkdirSync(folder, { recursive: true });
 
   const existing = readdirSync(folder).filter((name) =>
@@ -24,7 +24,7 @@ export function categoryImageMulterOptions(): MulterOptions {
     storage: diskStorage({
       destination: (req, file, cb) => {
         const key = (req.body as CategoryCreateBody).key;
-        const folder = join('uploads/categories', key);
+        const folder = join('contents/categories', key);
         if (!existsSync(folder)) mkdirSync(folder, { recursive: true });
         cb(null, folder);
       },

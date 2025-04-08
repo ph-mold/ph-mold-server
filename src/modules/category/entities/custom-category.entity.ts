@@ -26,6 +26,9 @@ export class CustomCategory {
   @Column({ name: 'parent_id', nullable: true })
   parentId?: number;
 
+  @Column({ name: 'image_url', nullable: true })
+  imageUrl?: string;
+
   @Column({ name: 'created_by', nullable: true })
   createdBy: number;
 

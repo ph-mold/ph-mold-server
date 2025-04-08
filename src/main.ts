@@ -6,22 +6,27 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
-    .setTitle('PH Mold Server')
-    .setVersion('1.0')
-    .build();
+  if (process.env.NODE_ENV !== 'production') {
+    const cb = new DocumentBuilder();
+    cb.setTitle('PH Mold Server').setVersion('1.0');
 
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+    if (process.env.APP_ENV !== 'local') {
+      cb.addServer('http://localhost:8080/apis');
+    }
+
+    const config = cb.build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('swagger', app, document);
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true, // plain object → DTO 자동 변환
-      whitelist: true, // DTO에 없는 값 제거
-      forbidNonWhitelisted: true, // DTO에 정의되지 않은 값 들어오면 예외
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
     }),
   );
 
-  await app.listen(8080);
+  await app.listen(3001);
 }
 bootstrap();

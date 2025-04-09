@@ -400,4 +400,4 @@ dist
 .serverless/**/*.zip
 data
 my.cnf
-uploads
+contents

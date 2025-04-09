@@ -45,7 +45,7 @@ export class CategoryController {
     @Body() dto: CreateCustomCategoryDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const imageUrl = `/uploads/categories/${dto.key}/${file.filename}`;
+    const imageUrl = `/contents/categories/${dto.key}/${file.filename}`;
     return await this.categoryService.create(dto, imageUrl);
   }
 }

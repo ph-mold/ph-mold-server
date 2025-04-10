@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { CustomCategory } from './entities/custom-category.entity';
 import { CustomCategoryTag } from './entities/custom-category-tag.entity';
 import { CreateCustomCategoryDto } from './dto';
@@ -17,11 +17,15 @@ export class CategoryRepository {
 
   async findRootCategories(): Promise<CustomCategory[]> {
     return this.customCategoryRepo.find({
-      where: { parentId: null },
-      order: { createdAt: 'ASC' },
+      where: { parentId: IsNull() },
     });
   }
   async findChildrenByKey(parentKey: string): Promise<CustomCategory[]> {
+    if (!parentKey || parentKey === 'all') {
+      return await this.customCategoryRepo.find({
+        where: { parentId: Not(IsNull()) },
+      });
+    }
     const parent = await this.customCategoryRepo.findOne({
       where: { key: parentKey },
     });
@@ -29,7 +33,6 @@ export class CategoryRepository {
 
     return this.customCategoryRepo.find({
       where: { parentId: parent.id },
-      order: { createdAt: 'ASC' },
     });
   }
   async findOneWithTagsByKey(key: string): Promise<CustomCategory | null> {

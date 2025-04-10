@@ -7,10 +7,12 @@ import { HealthModule } from './health/health.module';
 import { ProductModule } from './modules/product/product.module';
 import { TagModule } from './modules/tag/tag.module';
 import { CategoryModule } from './modules/category/category.module';
+import { getLocalStaticModules } from './utils/local-serve-static-module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ...getLocalStaticModules(),
     DbModule,
     HealthModule,
     ProductModule,

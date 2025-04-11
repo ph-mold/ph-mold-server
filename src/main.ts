@@ -11,7 +11,7 @@ async function bootstrap() {
     cb.setTitle('PH Mold Server').setVersion('1.0');
 
     if (process.env.APP_ENV !== 'local') {
-      cb.addServer('http://localhost:8080/apis');
+      cb.addServer(`${process.env.BASE_URL}/apis`);
     }
 
     const config = cb.build();

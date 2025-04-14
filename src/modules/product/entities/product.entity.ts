@@ -39,6 +39,9 @@ export class Product {
   @OneToMany(() => ProductSpec, (spec) => spec.product, { cascade: true })
   specs: ProductSpec[];
 
+  @Column({ name: 'thumbnail_image_url', nullable: true })
+  thumbnailImageUrl?: string;
+
   @ManyToMany(() => Tag, (tag) => tag.products, { cascade: true })
   @JoinTable({
     name: 'product_tags',

@@ -11,22 +11,34 @@ export default class ProductRepository {
   ) {}
 
   async findByTagKeys(
-    includeTagKeys: string[],
+    includeTagKeys: string[] = [],
     excludeTagKeys: string[] = [],
   ): Promise<Product[]> {
     const qb = this.productRepo
       .createQueryBuilder('product')
-      .innerJoin('product.tags', 'tag')
-      .where('tag.key IN (:...includeTagKeys)', { includeTagKeys })
-      .groupBy('product.id')
-      .having('COUNT(DISTINCT tag.id) = :includeCount', {
-        includeCount: includeTagKeys.length,
-      });
+      .leftJoinAndSelect('product.tags', 'tag');
 
-    // 제외 조건 추가
+    // include 조건
+    if (includeTagKeys.length > 0) {
+      qb.andWhere((qb) => {
+        const sub = qb
+          .subQuery()
+          .select('pt.product_id')
+          .from('product_tags', 'pt')
+          .innerJoin('tags', 't', 'pt.tag_id = t.id')
+          .where('t.key IN (:...includeTagKeys)')
+          .groupBy('pt.product_id')
+          .having('COUNT(DISTINCT t.id) = :includeCount')
+          .getQuery();
+
+        return `product.id IN ${sub}`;
+      }).setParameters({ includeTagKeys, includeCount: includeTagKeys.length });
+    }
+
+    // exclude 조건
     if (excludeTagKeys.length > 0) {
       qb.andWhere((qb) => {
-        const subQb = qb
+        const sub = qb
           .subQuery()
           .select('1')
           .from('product_tags', 'pt')
@@ -35,7 +47,7 @@ export default class ProductRepository {
           .andWhere('t.key IN (:...excludeTagKeys)')
           .getQuery();
 
-        return `NOT EXISTS ${subQb}`;
+        return `NOT EXISTS ${sub}`;
       }).setParameter('excludeTagKeys', excludeTagKeys);
     }
 

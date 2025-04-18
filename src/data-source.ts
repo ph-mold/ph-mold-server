@@ -18,16 +18,3 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   timezone: 'Z',
 });
-
-AppDataSource.initialize()
-  .then(() => {
-    return AppDataSource.runMigrations();
-  })
-  .then(() => {
-    console.log('✅ Migration complete');
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.error('❌ Migration failed:', err);
-    process.exit(1);
-  });

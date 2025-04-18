@@ -24,6 +24,7 @@ jobs:
           docker build \
             -t ghcr.io/ph-mold/ph-mold-server:${{ env.IMAGE_TAG }} .
           docker push ghcr.io/ph-mold/ph-mold-server:${{ env.IMAGE_TAG }}
+
       - name: Deploy to server with commit SHA
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -35,5 +36,6 @@ jobs:
             cd ~/apps/ph-mold-infra
             export IMAGE_TAG=${{ env.IMAGE_TAG }}
             docker pull ghcr.io/ph-mold/ph-mold-server:$IMAGE_TAG
-            docker compose run --rm api node dist/data-source.js
+            docker compose run --rm api \
+              sh -c "npx typeorm migration:run -d dist/data-source.js"
             IMAGE_TAG=${{ env.IMAGE_TAG }} docker compose up -d api

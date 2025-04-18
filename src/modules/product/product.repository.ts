@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
@@ -10,7 +10,7 @@ export default class ProductRepository {
     private readonly productRepo: Repository<Product>,
   ) {}
 
-  async findByTagKeys(
+  async findProductsByTagKeys(
     includeTagKeys: string[] = [],
     excludeTagKeys: string[] = [],
   ): Promise<Product[]> {
@@ -52,5 +52,15 @@ export default class ProductRepository {
     }
 
     return qb.getMany();
+  }
+
+  async findProductByKey(key: string): Promise<Product> {
+    const product = await this.productRepo.findOne({
+      where: { key },
+    });
+    if (!product) {
+      throw new NotFoundException(`Product with key ${key} not found`);
+    }
+    return product;
   }
 }

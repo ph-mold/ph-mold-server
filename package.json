@@ -16,7 +16,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm:run": "nest build && node dist/data-source.js",
+    "typeorm:revert": "npx typeorm migration:revert -d dist/data-source-migration.js",
+    "typeorm:show": "npx typeorm migration:show -d dist/data-source-migration.js",
+    "typeorm:create": "npx typeorm migration:create src/migrations/$npm_config_name",
+    "migration:generate": "npx typeorm migration:generate src/migrations/$npm_config_name -d src/data-source-migration.ts"
   },
   "engines": {
     "npm": ">=10.0.0",

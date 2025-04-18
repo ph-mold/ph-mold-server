@@ -63,4 +63,15 @@ export default class ProductRepository {
     }
     return product;
   }
+
+  async findProductInfoByKey(key: string): Promise<Product> {
+    const product = await this.productRepo.findOne({
+      where: { key },
+      relations: ['tags', 'specs', 'specs.specType'],
+    });
+    if (!product) {
+      throw new NotFoundException(`Product with key ${key} not found`);
+    }
+    return product;
+  }
 }

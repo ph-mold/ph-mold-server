@@ -12,11 +12,13 @@ export class ProductController {
 
   @Get(':key/summary')
   async getProductSummary(@Param('key') key: string) {
-    return this.productService.getProduct(key);
+    return this.productService.getProductSummary(key);
   }
 
   @Get(':key/info')
-  async getProductInfo() {}
+  async getProductInfo(@Param('key') key: string) {
+    return this.productService.getProductInfo(key);
+  }
 
   @Get(':key/images')
   async getProductImages() {}

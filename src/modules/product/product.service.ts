@@ -27,7 +27,11 @@ export class ProductService {
     return this.productRepo.findProductsByTagKeys(include, exclude ?? []);
   }
 
-  async getProduct(key: string) {
+  async getProductSummary(key: string) {
     return this.productRepo.findProductByKey(key);
+  }
+
+  async getProductInfo(key: string) {
+    return this.productRepo.findProductInfoByKey(key);
   }
 }

@@ -22,12 +22,12 @@ export class ProductImage {
   @Column()
   url: string;
 
-  @Column({ default: false })
+  @Column({ name: 'is_thumbnail', default: false })
   isThumbnail: boolean;
 
-  @Column({ nullable: true })
+  @Column({ name: 'sort_order', nullable: true })
   sortOrder?: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'create_at' })
   createdAt: Date;
 }

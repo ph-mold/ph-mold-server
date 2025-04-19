@@ -2,12 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
+import { ProductImage } from './entities/product-image.entitiy';
 
 @Injectable()
 export default class ProductRepository {
   constructor(
     @InjectRepository(Product)
     private readonly productRepo: Repository<Product>,
+    @InjectRepository(ProductImage)
+    private readonly productImageRepo: Repository<ProductImage>,
   ) {}
 
   async findProductsByTagKeys(
@@ -73,5 +76,21 @@ export default class ProductRepository {
       throw new NotFoundException(`Product with key ${key} not found`);
     }
     return product;
+  }
+
+  async findProductImagesByKey(key: string): Promise<ProductImage[]> {
+    return this.productImageRepo
+      .createQueryBuilder('image')
+      .leftJoin('image.product', 'product')
+      .where('product.key = :key', { key })
+      .select([
+        'image.id AS id',
+        'image.url AS url',
+        'image.isThumbnail AS isThumbnail',
+        'image.sortOrder AS sortOrder',
+        'image.createdAt AS createdAt',
+      ])
+      .orderBy('image.sortOrder', 'ASC')
+      .getRawMany();
   }
 }

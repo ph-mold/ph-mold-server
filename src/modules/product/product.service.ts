@@ -34,4 +34,8 @@ export class ProductService {
   async getProductInfo(key: string) {
     return this.productRepo.findProductInfoByKey(key);
   }
+
+  async getProductImages(key: string) {
+    return this.productRepo.findProductImagesByKey(key);
+  }
 }

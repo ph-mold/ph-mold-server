@@ -21,5 +21,7 @@ export class ProductController {
   }
 
   @Get(':key/images')
-  async getProductImages() {}
+  async getProductImages(@Param('key') key: string) {
+    return this.productService.getProductImages(key);
+  }
 }

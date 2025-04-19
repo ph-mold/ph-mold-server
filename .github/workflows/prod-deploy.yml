@@ -2,7 +2,7 @@ name: Production Deploy
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   deploy:
@@ -10,29 +10,32 @@ jobs:
     env:
       IMAGE_TAG: ${{ github.sha }}
     steps:
-        - name: Checkout source
-          uses: actions/checkout@v3
+      - name: Checkout source
+        uses: actions/checkout@v3
 
-        - name: Set up Docker
-          uses: docker/setup-buildx-action@v2
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
 
-        - name: Log in to GitHub Container Registry
-          run: echo "${{ secrets.REPO_GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          
-        - name: Build and push Docker image with commit SHA tag
-          run: |
-                  docker build \
-                    -t ghcr.io/ph-mold/ph-mold-server:${{ env.IMAGE_TAG }} .
-                  docker push ghcr.io/ph-mold/ph-mold-server:${{ env.IMAGE_TAG }}
-        - name: Deploy to server with commit SHA
-          uses: appleboy/ssh-action@v1.0.0
-          with:
-            host: ${{ secrets.SERVER_HOST }}
-            username: ${{ secrets.SERVER_USER }}
-            key: ${{ secrets.SERVER_SSH_KEY }}
-            port: ${{ secrets.SERVER_SSH_PORT }}
-            script: |
-              cd ~/apps/ph-mold-infra
-              export IMAGE_TAG=${{ env.IMAGE_TAG }}
-              docker pull ghcr.io/ph-mold/ph-mold-server:$IMAGE_TAG
-              IMAGE_TAG=${{ env.IMAGE_TAG }} docker compose up -d api
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.REPO_GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and push Docker image with commit SHA tag
+        run: |
+          docker build \
+            -t ghcr.io/ph-mold/ph-mold-server:${{ env.IMAGE_TAG }} .
+          docker push ghcr.io/ph-mold/ph-mold-server:${{ env.IMAGE_TAG }}
+
+      - name: Deploy to server with commit SHA
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          script: |
+            cd ~/apps/ph-mold-infra
+            export IMAGE_TAG=${{ env.IMAGE_TAG }}
+            docker pull ghcr.io/ph-mold/ph-mold-server:$IMAGE_TAG
+            docker compose run --rm api \
+              sh -c "npx typeorm migration:run -d dist/data-source.js"
+            IMAGE_TAG=${{ env.IMAGE_TAG }} docker compose up -d api

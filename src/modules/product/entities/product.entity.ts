@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { ProductSpec } from './product-spec.entity';
 import { Tag } from 'src/modules/tag/entities/tag.entity';
+import { ProductImage } from './product-image.entitiy';
 
 @Entity('products')
 export class Product {
@@ -42,6 +43,12 @@ export class Product {
   @Column({ name: 'thumbnail_image_url', nullable: true })
   thumbnailImageUrl?: string;
 
+  @Column({ nullable: true })
+  origin?: string;
+
+  @Column({ name: 'moq', nullable: true })
+  moq?: number;
+
   @ManyToMany(() => Tag, (tag) => tag.products, { cascade: true })
   @JoinTable({
     name: 'product_tags',
@@ -49,4 +56,10 @@ export class Product {
     inverseJoinColumn: { name: 'tag_id', referencedColumnName: 'id' },
   })
   tags: Tag[];
+
+  @OneToMany(() => ProductImage, (image) => image.product, {
+    cascade: true,
+    eager: false,
+  })
+  images: ProductImage[];
 }

@@ -24,6 +24,18 @@ export class ProductService {
     include?: string[];
     exclude?: string[];
   }): Promise<Product[]> {
-    return this.productRepo.findByTagKeys(include, exclude ?? []);
+    return this.productRepo.findProductsByTagKeys(include, exclude ?? []);
+  }
+
+  async getProductSummary(key: string) {
+    return this.productRepo.findProductByKey(key);
+  }
+
+  async getProductInfo(key: string) {
+    return this.productRepo.findProductInfoByKey(key);
+  }
+
+  async getProductImages(key: string) {
+    return this.productRepo.findProductImagesByKey(key);
   }
 }

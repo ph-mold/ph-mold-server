@@ -1,98 +1,89 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# ⚙️ PH-MOLD Server
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+ph-mold-server는 (주)팜앤몰드의 웹 백엔드 API 서버입니다.
+제품 카탈로그 관리, 이미지 업로드, 카테고리 및 태그 시스템, SEO 대응 API 등을 제공합니다.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+NestJS 기반의 RESTful API 구조로 구성되며, 도커 및 GitHub Actions 기반으로 자동 배포됩니다.
 
-## Description
+## 🔧 Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+| 영역         | 기술                              |
+| ------------ | --------------------------------- |
+| Framework    | NestJS 10+                        |
+| Language     | TypeScript                        |
+| DB           | MariaDB (mysql2 + TypeORM)        |
+| API 문서     | Swagger (`@nestjs/swagger`)       |
+| 파일 업로드  | Multer + Nginx Static File Server |
+| 배포         | Docker + GitHub Actions + Nginx   |
+| 마이그레이션 | TypeORM CLI 기반 관리             |
 
-## Project setup
+## 📁 프로젝트 구조
 
-```bash
-$ npm install
+```
+├── src/
+│   ├── modules/                   # 주요 도메인 모듈 (product, category 등)
+│   ├── migrations/               # TypeORM 마이그레이션 파일
+│   ├── common/                   # 공통 예외 필터, 유틸, 설정
+│   ├── data-source.ts            # TypeORM 데이터 소스 정의
+│   └── main.ts                   # 서버 엔트리포인트
+├── contents/                     # 업로드된 이미지 파일 (volume 연동)
+├── Dockerfile                    # NestJS 앱용 Dockerfile
+├── .env                          # 환경변수 설정
 ```
 
-## Compile and run the project
+## 🧪 주요 기능
+
+- ✅ 제품, 카테고리, 태그, 스펙 기반 API 제공
+- ✅ SSR/SEO 대응을 위한 요약 데이터 제공
+- ✅ 이미지 업로드 및 정적 파일 서버 연동
+- ✅ 커스텀 카테고리 분류 생성 및 태그 필터
+- ✅ Swagger 기반 API 문서 자동 생성
+- ✅ TypeORM 기반 마이그레이션 관리
+- ✅ GitHub Actions 기반 서버 자동 배포
+- ✅ 파일 서버와의 Docker Volume 연동 및 Nginx Proxy
+- ✅ 현재 개발 진행중...
+
+## 🐳 Docker 사용
+
+**로컬 개발용이 아닌 프로덕션 컨테이너로만 사용됩니다.**
+
+> Docker Compose는 별도의 [`ph-mold-infra`](https://github.com/ph-mold/ph-mold-infra) 레포에서 관리됩니다.
+
+## 🧬 마이그레이션
+
+### ▶ 마이그레이션 생성
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run typeorm:create --name=CreateProductsTable
 ```
 
-## Run tests
+### ▶ 마이그레이션 실행
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+npm run typeorm:run
 ```
 
-## Deployment
+> 자동 실행은 GitHub Actions + SSH 배포 시
+> docker compose run --rm api npm run typeorm:run 으로 처리됩니다.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## ⚙️ 환경변수 (.env.example 참고)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```
+# development / production / test
+NODE_ENV=development
+# dev / local
+APP_ENV=local
+BASE_URL=
 
-```bash
-$ npm install -g mau
-$ mau deploy
+# DB 설정
+DB_HOST=
+DB_PORT=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🏁 API 문서
 
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+> Swagger 문서 경로
+> http://<서버주소>/swagger

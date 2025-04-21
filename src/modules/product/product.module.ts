@@ -8,10 +8,17 @@ import ProductRepository from './product.repository';
 import { CategoryModule } from '../category/category.module';
 import { SpecType } from './entities/spec_type.entity';
 import { ProductImage } from './entities/product-image.entitiy';
+import { ProductDetail } from './entities/product-detail.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product, ProductSpec, SpecType, ProductImage]),
+    TypeOrmModule.forFeature([
+      Product,
+      ProductSpec,
+      SpecType,
+      ProductImage,
+      ProductDetail,
+    ]),
     CategoryModule,
   ],
   providers: [ProductService, ProductRepository],

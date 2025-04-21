@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { ProductImage } from './entities/product-image.entitiy';
+import { ProductDetail } from './entities/product-detail.entity';
 
 @Injectable()
 export default class ProductRepository {
@@ -11,6 +12,8 @@ export default class ProductRepository {
     private readonly productRepo: Repository<Product>,
     @InjectRepository(ProductImage)
     private readonly productImageRepo: Repository<ProductImage>,
+    @InjectRepository(ProductDetail)
+    private readonly productDetailRepo: Repository<ProductDetail>,
   ) {}
 
   async findProductsByTagKeys(
@@ -92,5 +95,13 @@ export default class ProductRepository {
       ])
       .orderBy('image.sortOrder', 'ASC')
       .getRawMany();
+  }
+  async findProductDetailByKey(key: string): Promise<ProductDetail> {
+    return this.productDetailRepo
+      .createQueryBuilder('detail')
+      .leftJoin('detail.product', 'product')
+      .where('product.key = :key', { key })
+      .select('detail.detail', 'detail')
+      .getRawOne();
   }
 }

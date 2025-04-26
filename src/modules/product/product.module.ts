@@ -9,6 +9,7 @@ import { CategoryModule } from '../category/category.module';
 import { SpecType } from './entities/spec_type.entity';
 import { ProductImage } from './entities/product-image.entitiy';
 import { ProductDetail } from './entities/product-detail.entity';
+import { SampleRequest } from './entities/smaple-request.entity';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductDetail } from './entities/product-detail.entity';
       SpecType,
       ProductImage,
       ProductDetail,
+      SampleRequest,
     ]),
     CategoryModule,
   ],

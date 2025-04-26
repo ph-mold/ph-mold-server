@@ -10,6 +10,7 @@ import {
 import { ProductSpec } from './product-spec.entity';
 import { Tag } from 'src/modules/tag/entities/tag.entity';
 import { ProductImage } from './product-image.entitiy';
+import { SampleRequest } from './smaple-request.entity';
 
 @Entity('products')
 export class Product {
@@ -62,4 +63,7 @@ export class Product {
     eager: false,
   })
   images: ProductImage[];
+
+  @OneToMany(() => SampleRequest, (request) => request.product)
+  sampleRequests: SampleRequest[];
 }

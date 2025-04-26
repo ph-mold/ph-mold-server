@@ -8,6 +8,7 @@ import { ProductModule } from './modules/product/product.module';
 import { TagModule } from './modules/tag/tag.module';
 import { CategoryModule } from './modules/category/category.module';
 import { getLocalStaticModules } from './utils/local-serve-static-module';
+import { SampleRequestModule } from './modules/sample-request/sample-request.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { getLocalStaticModules } from './utils/local-serve-static-module';
     ProductModule,
     TagModule,
     CategoryModule,
+    SampleRequestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

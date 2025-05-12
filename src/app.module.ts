@@ -9,6 +9,7 @@ import { TagModule } from './modules/tag/tag.module';
 import { CategoryModule } from './modules/category/category.module';
 import { getLocalStaticModules } from './utils/local-serve-static-module';
 import { SampleRequestModule } from './modules/sample-request/sample-request.module';
+import { AdminProductSpecModule } from './modules/admin/product-spec/admin.product-spec.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SampleRequestModule } from './modules/sample-request/sample-request.mod
     TagModule,
     CategoryModule,
     SampleRequestModule,
+    AdminProductSpecModule,
   ],
   controllers: [AppController],
   providers: [AppService],

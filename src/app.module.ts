@@ -11,6 +11,7 @@ import { getLocalStaticModules } from './utils/local-serve-static-module';
 import { SampleRequestModule } from './modules/sample-request/sample-request.module';
 import { AdminProductSpecModule } from './modules/admin/product-spec/admin.product-spec.module';
 import { AdminProductTagModule } from './modules/admin/product-tag/admin.product-tag.module';
+import { FileModule } from './modules/file/file.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AdminProductTagModule } from './modules/admin/product-tag/admin.product
     SampleRequestModule,
     AdminProductSpecModule,
     AdminProductTagModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

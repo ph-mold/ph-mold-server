@@ -10,6 +10,7 @@ import { CategoryModule } from './modules/category/category.module';
 import { getLocalStaticModules } from './utils/local-serve-static-module';
 import { SampleRequestModule } from './modules/sample-request/sample-request.module';
 import { AdminProductSpecModule } from './modules/admin/product-spec/admin.product-spec.module';
+import { AdminProductTagModule } from './modules/admin/product-tag/admin.product-tag.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AdminProductSpecModule } from './modules/admin/product-spec/admin.produ
     CategoryModule,
     SampleRequestModule,
     AdminProductSpecModule,
+    AdminProductTagModule,
   ],
   controllers: [AppController],
   providers: [AppService],

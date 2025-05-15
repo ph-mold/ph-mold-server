@@ -6,7 +6,7 @@ import { ProductImage } from './entities/product-image.entitiy';
 import { ProductDetail } from './entities/product-detail.entity';
 
 @Injectable()
-export default class ProductRepository {
+export class ProductRepository {
   constructor(
     @InjectRepository(Product)
     private readonly productRepo: Repository<Product>,

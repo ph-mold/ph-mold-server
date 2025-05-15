@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import AdminProductSpecRepository from './admin.product-spec.repository';
+import { AdminProductSpecRepository } from './admin.product-spec.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SpecType } from 'src/modules/product/entities/spec_type.entity';
 import { Repository } from 'typeorm';

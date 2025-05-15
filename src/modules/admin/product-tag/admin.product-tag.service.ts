@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import AdminProductTagRepository from './admin.product-tag.repository';
+import { AdminProductTagRepository } from './admin.product-tag.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tag } from 'src/modules/tag/entities/tag.entity';

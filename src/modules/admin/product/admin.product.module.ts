@@ -11,6 +11,8 @@ import { AdminProductService } from './admin.product.service';
 import { AdminProductRepository } from './admin.product.repository';
 import { AdminProductController } from './admin.product.controller';
 import { AdminProductImageModule } from '../product-image/admin.product-image.module';
+import { AdminProductSpecModule } from '../product-spec/admin.product-spec.module';
+import { AdminProductTagModule } from '../product-tag/admin.product-tag.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { AdminProductImageModule } from '../product-image/admin.product-image.mo
     ]),
     CategoryModule,
     AdminProductImageModule,
+    AdminProductSpecModule,
+    AdminProductTagModule,
   ],
   providers: [AdminProductService, AdminProductRepository],
   controllers: [AdminProductController],

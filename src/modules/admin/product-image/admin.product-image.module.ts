@@ -8,5 +8,6 @@ import { FileModule } from 'src/modules/file/file.module';
 @Module({
   imports: [TypeOrmModule.forFeature([ProductImage]), FileModule],
   providers: [AdminProductImageService, AdminProductImageRepository],
+  exports: [AdminProductImageService],
 })
 export class AdminProductImageModule {}

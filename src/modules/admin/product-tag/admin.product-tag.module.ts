@@ -9,5 +9,6 @@ import { Tag } from 'src/modules/tag/entities/tag.entity';
   imports: [TypeOrmModule.forFeature([Tag])],
   providers: [AdminProductTagService, AdminProductTagRepository],
   controllers: [AdminProductTagController],
+  exports: [AdminProductTagService],
 })
 export class AdminProductTagModule {}

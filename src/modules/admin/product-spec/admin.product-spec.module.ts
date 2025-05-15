@@ -10,5 +10,6 @@ import { ProductSpec } from 'src/modules/product/entities/product-spec.entity';
   imports: [TypeOrmModule.forFeature([ProductSpec, SpecType])],
   providers: [AdminProductSpecService, AdminProductSpecRepository],
   controllers: [AdminProductSpecController],
+  exports: [AdminProductSpecService],
 })
 export class AdminProductSpecModule {}

@@ -4,6 +4,7 @@ import { DataSource } from 'typeorm';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AdminProductImageService } from '../product-image/admin.product-image.service';
 import { AdminProductSpecService } from '../product-spec/admin.product-spec.service';
+import { AdminProductTagService } from '../product-tag/admin.product-tag.service';
 
 @Injectable()
 export class AdminProductService {
@@ -11,6 +12,7 @@ export class AdminProductService {
     private readonly dataSource: DataSource,
     private readonly productImageService: AdminProductImageService,
     private readonly productSpecService: AdminProductSpecService,
+    private readonly productTagService: AdminProductTagService,
     private readonly repo: AdminProductRepository,
   ) {}
   async update(productId: number, dto: UpdateProductDto) {
@@ -25,6 +27,8 @@ export class AdminProductService {
       await this.productImageService.syncImages(productId, dto.images, manager);
 
       await this.productSpecService.syncSpecs(product.id, dto.specs, manager);
+
+      await this.productTagService.syncTags(product.id, dto.tags, manager);
     });
   }
 }

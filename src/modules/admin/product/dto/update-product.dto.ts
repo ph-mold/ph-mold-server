@@ -9,6 +9,20 @@ import { Type } from 'class-transformer';
 
 type flag = 'new' | 'update' | 'delete' | undefined;
 
+export class SpecTypeDto {
+  @IsNumber()
+  id: number;
+
+  @IsString()
+  key: string;
+
+  @IsString()
+  label: string;
+
+  @IsString()
+  unit: string;
+}
+
 export class UpdateSpecDto {
   @IsOptional()
   id?: number;
@@ -20,13 +34,8 @@ export class UpdateSpecDto {
   flag?: flag;
 
   @ValidateNested()
-  @Type(() => Object)
-  specType: {
-    id: number;
-    key: string;
-    label: string;
-    unit: string;
-  };
+  @Type(() => SpecTypeDto)
+  specType: SpecTypeDto;
 }
 
 export class UpdateTagDto {
@@ -35,6 +44,9 @@ export class UpdateTagDto {
 
   @IsString()
   key: string;
+
+  @IsString()
+  name: string;
 
   @IsOptional()
   flag?: flag;

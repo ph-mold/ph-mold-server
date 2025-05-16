@@ -12,6 +12,7 @@ import { SampleRequestModule } from './modules/sample-request/sample-request.mod
 import { AdminProductSpecModule } from './modules/admin/product-spec/admin.product-spec.module';
 import { AdminProductTagModule } from './modules/admin/product-tag/admin.product-tag.module';
 import { FileModule } from './modules/file/file.module';
+import { AdminProductModule } from './modules/admin/product/admin.product.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { FileModule } from './modules/file/file.module';
     AdminProductSpecModule,
     AdminProductTagModule,
     FileModule,
+    AdminProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

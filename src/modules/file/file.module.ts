@@ -9,5 +9,6 @@ import { UploadedFile } from './entities/uploaded-file.entity';
   imports: [TypeOrmModule.forFeature([UploadedFile])],
   providers: [FileService, FileRepository],
   controllers: [FileController],
+  exports: [FileService],
 })
 export class FileModule {}

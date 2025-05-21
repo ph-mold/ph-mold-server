@@ -6,6 +6,7 @@ import {
   Post,
   Req,
   Res,
+  Headers,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
@@ -37,6 +38,7 @@ export class AuthController {
   async login(
     @Body() body: LoginDto,
     @Res({ passthrough: true }) res: Response,
+    @Headers('platform') platform: string,
   ) {
     const { accessToken, refreshToken, user } =
       await this.authService.loginWithRefresh(body.email, body.password);
@@ -45,15 +47,21 @@ export class AuthController {
       this.config.get<string>('JWT_REFRESH_EXPIRES_IN') || '14d',
     );
 
-    res.cookie('refresh_token', refreshToken, {
-      httpOnly: true,
-      path: '/auth/refresh',
-      maxAge: refreshMaxAge,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-    });
+    if (platform === 'web') {
+      res.cookie('refresh_token', refreshToken, {
+        httpOnly: true,
+        path: '/auth/refresh',
+        maxAge: refreshMaxAge,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production',
+      });
+    }
 
-    return { accessToken, user };
+    return {
+      accessToken,
+      refreshToken: platform !== 'web' ? refreshToken : undefined,
+      user,
+    };
   }
 
   @Post('refresh-dev')
@@ -70,8 +78,11 @@ export class AuthController {
   async refresh(
     @Req() req: AuthRequest,
     @Res({ passthrough: true }) res: Response,
+    @Headers('platform') platform: string,
+    @Body('refresh_token') refreshTokenFromBody: string,
   ) {
-    const refreshToken = req.cookies?.refresh_token;
+    const refreshToken =
+      platform === 'web' ? req.cookies?.refresh_token : refreshTokenFromBody;
     const { accessToken, refreshToken: newRefreshToken } =
       await this.authService.refreshAccessToken(refreshToken);
 
@@ -79,15 +90,20 @@ export class AuthController {
       this.config.get<string>('JWT_REFRESH_EXPIRES_IN') || '14d',
     );
 
-    res.cookie('refresh_token', newRefreshToken, {
-      httpOnly: true,
-      path: '/auth/refresh',
-      maxAge: refreshMaxAge,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-    });
+    if (platform === 'web') {
+      res.cookie('refresh_token', newRefreshToken, {
+        httpOnly: true,
+        path: '/auth/refresh',
+        maxAge: refreshMaxAge,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production',
+      });
+    }
 
-    return { accessToken };
+    return {
+      accessToken,
+      refreshToken: platform !== 'web' ? refreshToken : undefined,
+    };
   }
 
   @Post('logout')
@@ -95,13 +111,16 @@ export class AuthController {
   async logout(
     @Req() req: AuthRequest,
     @Res({ passthrough: true }) res: Response,
+    @Headers('platform') platform: string,
   ) {
     const refreshToken = req.cookies?.refresh_token;
     if (refreshToken) {
       await this.authService.logout(refreshToken);
     }
 
-    res.clearCookie('refresh_token', { path: '/auth/refresh' });
+    if (platform === 'web') {
+      res.clearCookie('refresh_token', { path: '/auth/refresh' });
+    }
 
     return { message: '로그아웃 되었습니다.' };
   }

@@ -13,6 +13,17 @@ async function bootstrap() {
     if (process.env.APP_ENV !== 'local') {
       cb.addServer(`${process.env.BASE_URL}/apis`);
     }
+    cb.addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        description: 'JWT access token을 입력하세요.',
+        in: 'header',
+      },
+      'access-token', // <-- 이 key를 기억하세요
+    );
 
     const config = cb.build();
     const document = SwaggerModule.createDocument(app, config);

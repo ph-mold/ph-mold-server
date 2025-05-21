@@ -13,6 +13,7 @@ import { AdminProductSpecModule } from './modules/admin/product-spec/admin.produ
 import { AdminProductTagModule } from './modules/admin/product-tag/admin.product-tag.module';
 import { FileModule } from './modules/file/file.module';
 import { AdminProductModule } from './modules/admin/product/admin.product.module';
+import { AuthModule } from './modules/admin/auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AdminProductModule } from './modules/admin/product/admin.product.module
     AdminProductTagModule,
     FileModule,
     AdminProductModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

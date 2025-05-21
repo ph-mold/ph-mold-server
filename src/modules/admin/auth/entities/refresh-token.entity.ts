@@ -5,9 +5,11 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 
+@Unique(['user'])
 @Entity('refresh_tokens')
 export class RefreshToken {
   @PrimaryGeneratedColumn()

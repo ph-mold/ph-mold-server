@@ -14,8 +14,9 @@ export class UserRepository {
     return this.repo.findOne({ where: { email } });
   }
 
-  async save(user: User): Promise<User> {
-    return this.repo.save(user);
+  async create(user: Partial<User>): Promise<User> {
+    const createUser = this.repo.create(user);
+    return this.repo.save(createUser);
   }
 
   async findById(id: number): Promise<User | null> {

@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +11,7 @@ async function bootstrap() {
   const whitelist = [
     'http://localhost:5123',
     'http://localhost:3000',
+    'http://localhost:3001',
     'http://218.148.21.205',
   ];
 
@@ -53,6 +55,7 @@ async function bootstrap() {
     SwaggerModule.setup('swagger', app, document);
   }
 
+  app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

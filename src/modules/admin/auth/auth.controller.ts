@@ -12,8 +12,7 @@ import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
 import { parseExpiresInToMs } from 'src/utils/jwt-expiry';
 import { ConfigService } from '@nestjs/config';
-import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
-import { UserService } from '../user/user.service';
+import { ApiBearerAuth, ApiBody, ApiHeader } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token-dev.dto';
 
@@ -28,13 +27,17 @@ interface AuthRequest extends Request {
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UserService,
     private readonly config: ConfigService,
   ) {}
 
   @Post('login')
   @HttpCode(200)
   @ApiBody({ type: LoginDto })
+  @ApiHeader({
+    name: 'platform',
+    description: 'web, desktop 등을 구분하는 플랫폼 헤더',
+    required: false,
+  })
   async login(
     @Body() body: LoginDto,
     @Res({ passthrough: true }) res: Response,
@@ -47,7 +50,7 @@ export class AuthController {
       this.config.get<string>('JWT_REFRESH_EXPIRES_IN') || '14d',
     );
 
-    if (platform === 'web') {
+    if (platform !== 'desktop') {
       res.cookie('refresh_token', refreshToken, {
         httpOnly: true,
         path: '/auth/refresh',
@@ -59,7 +62,7 @@ export class AuthController {
 
     return {
       accessToken,
-      refreshToken: platform !== 'web' ? refreshToken : undefined,
+      refreshToken: platform === 'desktop' ? refreshToken : undefined,
       user,
     };
   }
@@ -75,14 +78,20 @@ export class AuthController {
 
   @Post('refresh')
   @HttpCode(200)
+  @ApiBody({ type: RefreshTokenDto })
+  @ApiHeader({
+    name: 'platform',
+    description: 'web, desktop 등을 구분하는 플랫폼 헤더',
+    required: false,
+  })
   async refresh(
     @Req() req: AuthRequest,
     @Res({ passthrough: true }) res: Response,
     @Headers('platform') platform: string,
-    @Body('refresh_token') refreshTokenFromBody: string,
+    @Body() body: RefreshTokenDto,
   ) {
     const refreshToken =
-      platform === 'web' ? req.cookies?.refresh_token : refreshTokenFromBody;
+      platform !== 'desktop' ? req.cookies?.refresh_token : body.refresh_token;
     const { accessToken, refreshToken: newRefreshToken } =
       await this.authService.refreshAccessToken(refreshToken);
 
@@ -90,7 +99,7 @@ export class AuthController {
       this.config.get<string>('JWT_REFRESH_EXPIRES_IN') || '14d',
     );
 
-    if (platform === 'web') {
+    if (platform !== 'desktop') {
       res.cookie('refresh_token', newRefreshToken, {
         httpOnly: true,
         path: '/auth/refresh',
@@ -102,12 +111,17 @@ export class AuthController {
 
     return {
       accessToken,
-      refreshToken: platform !== 'web' ? refreshToken : undefined,
+      refreshToken: platform === 'desktop' ? refreshToken : undefined,
     };
   }
 
   @Post('logout')
   @HttpCode(200)
+  @ApiHeader({
+    name: 'platform',
+    description: 'web, desktop 등을 구분하는 플랫폼 헤더',
+    required: false,
+  })
   async logout(
     @Req() req: AuthRequest,
     @Res({ passthrough: true }) res: Response,

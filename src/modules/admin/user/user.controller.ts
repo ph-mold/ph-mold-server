@@ -9,13 +9,13 @@ import { ResUserDto } from './dto/res-user.dto';
 import { AuthPayload } from '../auth/auth.type';
 
 @Controller('user')
+@ApiBearerAuth('access-token')
+@Roles(Role.Admin, Role.User)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('me')
-  @ApiBearerAuth('access-token')
-  @Roles(Role.Admin, Role.User)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   async me(@User() user: AuthPayload) {
     return new ResUserDto(await this.userService.findById(user.userId));
   }

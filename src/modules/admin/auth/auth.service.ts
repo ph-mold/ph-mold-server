@@ -78,7 +78,9 @@ export class AuthService {
       role: user.role,
     };
 
-    const accessToken = this.jwtService.sign(payload);
+    const accessToken = this.jwtService.sign(payload, {
+      expiresIn: this.config.get<string>('JWT_EXPIRES_IN') || '15m',
+    });
 
     const refreshToken = this.jwtService.sign(payload, {
       expiresIn: this.config.get<string>('JWT_REFRESH_EXPIRES_IN') || '14d',

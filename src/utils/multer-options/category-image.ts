@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { existsSync, mkdirSync, readdirSync } from 'fs';
 import { diskStorage, Options as MulterOptions } from 'multer';
 import { join } from 'path';

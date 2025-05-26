@@ -111,7 +111,7 @@ export class AuthController {
 
     return {
       accessToken,
-      refreshToken: platform === 'desktop' ? refreshToken : undefined,
+      refreshToken: platform === 'desktop' ? newRefreshToken : undefined,
     };
   }
 

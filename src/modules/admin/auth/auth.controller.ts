@@ -53,7 +53,7 @@ export class AuthController {
     if (platform !== 'desktop') {
       res.cookie('refresh_token', refreshToken, {
         httpOnly: true,
-        path: '/auth/refresh',
+        path: '/auth',
         maxAge: refreshMaxAge,
         sameSite: 'strict',
         secure: process.env.NODE_ENV === 'production',
@@ -102,7 +102,7 @@ export class AuthController {
     if (platform !== 'desktop') {
       res.cookie('refresh_token', newRefreshToken, {
         httpOnly: true,
-        path: '/auth/refresh',
+        path: '/auth',
         maxAge: refreshMaxAge,
         sameSite: 'strict',
         secure: process.env.NODE_ENV === 'production',
@@ -111,7 +111,7 @@ export class AuthController {
 
     return {
       accessToken,
-      refreshToken: platform === 'desktop' ? refreshToken : undefined,
+      refreshToken: platform === 'desktop' ? newRefreshToken : undefined,
     };
   }
 
@@ -126,14 +126,16 @@ export class AuthController {
     @Req() req: AuthRequest,
     @Res({ passthrough: true }) res: Response,
     @Headers('platform') platform: string,
+    @Body() body: RefreshTokenDto,
   ) {
-    const refreshToken = req.cookies?.refresh_token;
+    const refreshToken =
+      platform !== 'desktop' ? req.cookies?.refresh_token : body.refresh_token;
     if (refreshToken) {
       await this.authService.logout(refreshToken);
     }
 
     if (platform === 'web') {
-      res.clearCookie('refresh_token', { path: '/auth/refresh' });
+      res.clearCookie('refresh_token', { path: '/auth' });
     }
 
     return { message: '로그아웃 되었습니다.' };

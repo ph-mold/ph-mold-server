@@ -16,6 +16,7 @@ import { AdminProductModule } from './modules/admin/product/product/admin.produc
 import { AuthModule } from './modules/admin/auth/auth.module';
 import { AdminTagModule } from './modules/admin/tag/admin.tag.module';
 import { AdminSpecModule } from './modules/admin/spec/admin.spec.module';
+import { AdminSampleRequestModule } from './modules/admin/sample-request/admin.sample-request.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AdminSpecModule } from './modules/admin/spec/admin.spec.module';
     AuthModule,
     AdminTagModule,
     AdminSpecModule,
+    AdminSampleRequestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

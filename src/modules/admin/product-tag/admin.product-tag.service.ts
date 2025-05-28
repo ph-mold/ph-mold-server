@@ -1,26 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { AdminProductTagRepository } from './admin.product-tag.repository';
-import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, Repository } from 'typeorm';
-import { Tag } from 'src/modules/tag/entities/tag.entity';
+import { EntityManager } from 'typeorm';
 import { UpdateTagDto } from '../product/dto/update-product.dto';
 
 @Injectable()
 export class AdminProductTagService {
-  constructor(
-    @InjectRepository(Tag)
-    private readonly tagRepo: Repository<Tag>,
-    private readonly repo: AdminProductTagRepository,
-  ) {}
-
-  async getTags() {
-    return this.tagRepo.find();
-  }
+  constructor(private readonly repo: AdminProductTagRepository) {}
 
   async syncTags(
     productId: number,
     tags: UpdateTagDto[],
-    manager: EntityManager,
+    manager?: EntityManager,
   ) {
     for (const tag of tags) {
       if (tag.flag === 'delete') {

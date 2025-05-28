@@ -7,38 +7,54 @@ import { EntityManager, Repository } from 'typeorm';
 @Injectable()
 export class AdminProductTagRepository {
   constructor(
+    @InjectRepository(Product)
+    private readonly productRepo: Repository<Product>,
+
     @InjectRepository(Tag)
     private readonly tagRepo: Repository<Tag>,
   ) {}
 
+  private getRepo<T>(
+    entity: Repository<T>,
+    manager?: EntityManager,
+  ): Repository<T> {
+    return manager ? manager.getRepository(entity.target) : entity;
+  }
+
   async addTagRelation(
     productId: number,
     tagId: number,
-    manager: EntityManager,
+    manager?: EntityManager,
   ) {
-    const product = await manager.getRepository(Product).findOne({
+    const productRepo = this.getRepo(this.productRepo, manager);
+    const tagRepo = this.getRepo(this.tagRepo, manager);
+
+    const product = await productRepo.findOne({
       where: { id: productId },
       relations: ['tags'],
     });
-    const tag = await manager.getRepository(Tag).findOneBy({ id: tagId });
+    const tag = await tagRepo.findOneBy({ id: tagId });
+
     if (product && tag) {
       product.tags.push(tag);
-      await manager.getRepository(Product).save(product);
+      await productRepo.save(product);
     }
   }
 
   async removeTagRelation(
     productId: number,
     tagId: number,
-    manager: EntityManager,
+    manager?: EntityManager,
   ) {
-    const product = await manager.getRepository(Product).findOne({
+    const productRepo = this.getRepo(this.productRepo, manager);
+
+    const product = await productRepo.findOne({
       where: { id: productId },
       relations: ['tags'],
     });
     if (!product) return;
 
     product.tags = product.tags.filter((tag) => tag.id !== tagId);
-    await manager.getRepository(Product).save(product);
+    await productRepo.save(product);
   }
 }

@@ -14,6 +14,7 @@ import { AdminProductTagModule } from './modules/admin/product-tag/admin.product
 import { FileModule } from './modules/file/file.module';
 import { AdminProductModule } from './modules/admin/product/admin.product.module';
 import { AuthModule } from './modules/admin/auth/auth.module';
+import { AdminTagModule } from './modules/admin/tag/admin.tag.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AuthModule } from './modules/admin/auth/auth.module';
     FileModule,
     AdminProductModule,
     AuthModule,
+    AdminTagModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -8,4 +8,8 @@ export class AdminSampleRequestService {
   async getSampleRequests() {
     return this.repo.findAllWithProduct();
   }
+
+  async getSampleRequest(id: number) {
+    return this.repo.findOneWithProduct(id);
+  }
 }

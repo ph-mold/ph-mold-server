@@ -16,4 +16,10 @@ export class AdminSampleRequestRepository {
       order: { createdAt: 'DESC' },
     });
   }
+  async findOneWithProduct(id: number) {
+    return this.repo.findOne({
+      where: { id },
+      relations: ['product'],
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Role, Roles } from 'src/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
@@ -15,5 +15,10 @@ export class AdminSampleRequestController {
   @Get()
   async getSampleRequests() {
     return this.service.getSampleRequests();
+  }
+
+  @Get(':id')
+  async getSampleRequest(@Param('id') id: number) {
+    return this.service.getSampleRequest(id);
   }
 }

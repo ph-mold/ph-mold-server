@@ -9,11 +9,14 @@ import { TagModule } from './modules/tag/tag.module';
 import { CategoryModule } from './modules/category/category.module';
 import { getLocalStaticModules } from './utils/local-serve-static-module';
 import { SampleRequestModule } from './modules/sample-request/sample-request.module';
-import { AdminProductSpecModule } from './modules/admin/product-spec/admin.product-spec.module';
-import { AdminProductTagModule } from './modules/admin/product-tag/admin.product-tag.module';
+import { AdminProductSpecModule } from './modules/admin/product/product-spec/admin.product-spec.module';
+import { AdminProductTagModule } from './modules/admin/product/product-tag/admin.product-tag.module';
 import { FileModule } from './modules/file/file.module';
-import { AdminProductModule } from './modules/admin/product/admin.product.module';
+import { AdminProductModule } from './modules/admin/product/product/admin.product.module';
 import { AuthModule } from './modules/admin/auth/auth.module';
+import { AdminTagModule } from './modules/admin/tag/admin.tag.module';
+import { AdminSpecModule } from './modules/admin/spec/admin.spec.module';
+import { AdminSampleRequestModule } from './modules/admin/sample-request/admin.sample-request.module';
 
 @Module({
   imports: [
@@ -30,6 +33,9 @@ import { AuthModule } from './modules/admin/auth/auth.module';
     FileModule,
     AdminProductModule,
     AuthModule,
+    AdminTagModule,
+    AdminSpecModule,
+    AdminSampleRequestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

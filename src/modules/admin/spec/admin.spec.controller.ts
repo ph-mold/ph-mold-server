@@ -1,21 +1,19 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { AdminProductTagService } from './admin.product-tag.service';
+import { AdminSpecService } from './admin.spec.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Role, Roles } from 'src/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 
-@Controller('admin/product-tag')
+@Controller('admin/spec')
 @ApiBearerAuth('access-token')
 @Roles(Role.Admin, Role.User)
 @UseGuards(JwtAuthGuard, RolesGuard)
-export class AdminProductTagController {
-  constructor(
-    private readonly adminProductTagService: AdminProductTagService,
-  ) {}
+export class AdminSpecController {
+  constructor(private readonly adminSpecService: AdminSpecService) {}
 
   @Get()
-  async getTags() {
-    return this.adminProductTagService.getTags();
+  async getSpecTypes() {
+    return this.adminSpecService.getSpecTypes();
   }
 }

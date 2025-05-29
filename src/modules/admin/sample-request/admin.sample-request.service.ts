@@ -1,16 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { SampleRequest } from 'src/modules/product/entities/smaple-request.entity';
-import { Repository } from 'typeorm';
+import { AdminSampleRequestRepository } from './admin.sample-request.repository';
 
 @Injectable()
 export class AdminSampleRequestService {
-  constructor(
-    @InjectRepository(SampleRequest)
-    private readonly repo: Repository<SampleRequest>,
-  ) {}
+  constructor(private readonly repo: AdminSampleRequestRepository) {}
 
   async getSampleRequests() {
-    return this.repo.find();
+    return this.repo.findAllWithProduct();
   }
 }

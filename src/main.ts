@@ -13,6 +13,7 @@ async function bootstrap() {
     'http://www.phmold.co.kr',
     'http://api.phmold.co.kr',
     'http://218.148.21.205',
+    'http://localhost:5123',
   ];
 
   const developmentWhitelist = [

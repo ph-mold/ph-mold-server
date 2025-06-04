@@ -7,12 +7,13 @@ export class FileService {
 
   async handleUpload(file: Express.Multer.File) {
     const key = this.extractKey(file.filename);
+    const path = file.path.replace('contents/', '');
     await this.fileRepo.saveFileInfo({
       key,
       originalName: file.originalname,
-      path: file.path,
+      path,
     });
-    return { path: `/${file.path}` };
+    return { path: `/${path}` };
   }
 
   async markFileAsUsed(key: string) {

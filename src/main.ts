@@ -8,12 +8,23 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const whitelist = [
+  const productionWhitelist = [
+    'http://phmold.co.kr',
+    'http://www.phmold.co.kr',
+    'http://api.phmold.co.kr',
+    'http://218.148.21.205',
+  ];
+
+  const developmentWhitelist = [
     'http://localhost:5123',
     'http://localhost:3000',
     'http://localhost:3001',
-    'http://218.148.21.205',
   ];
+
+  const whitelist =
+    process.env.NODE_ENV === 'production'
+      ? productionWhitelist
+      : [...productionWhitelist, ...developmentWhitelist];
 
   const corsOptions: CorsOptions = {
     origin: function (

@@ -1,22 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Inquiry, InquiryStatus } from './entities/inquiry.entity';
+import { DataSource, Repository } from 'typeorm';
+import { Inquiry } from './entities/inquiry.entity';
 import { CreateInquiryDto } from './dto/create-inquiry.dto';
+import { GetInquiriesDto } from './dto/get-inquiries.dto';
 
 @Injectable()
-export class InquiryRepository {
-  constructor(
-    @InjectRepository(Inquiry)
-    private readonly repo: Repository<Inquiry>,
-  ) {}
+export class InquiryRepository extends Repository<Inquiry> {
+  constructor(private dataSource: DataSource) {
+    super(Inquiry, dataSource.createEntityManager());
+  }
 
-  async create(dto: CreateInquiryDto): Promise<Inquiry> {
-    const inquiry = this.repo.create({
+  async createInquiry(
+    dto: CreateInquiryDto,
+    hashedPassword: string,
+  ): Promise<Inquiry> {
+    const inquiry = this.create({
       ...dto,
-      detailedAddress: dto.detailedAddress ?? '',
-      status: InquiryStatus.PENDING,
+      password: hashedPassword,
     });
-    return this.repo.save(inquiry);
+    return this.save(inquiry);
+  }
+
+  async findInquiries(dto: GetInquiriesDto): Promise<[Inquiry[], number]> {
+    return this.findAndCount({
+      skip: (dto.page - 1) * dto.limit,
+      take: dto.limit,
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  async findInquiryById(id: number): Promise<Inquiry | null> {
+    return this.findOne({
+      where: { id },
+    });
   }
 }

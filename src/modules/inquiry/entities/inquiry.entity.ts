@@ -38,8 +38,8 @@ export class Inquiry {
   @Column()
   address: string;
 
-  @Column({ name: 'detailedAddress' })
-  detailed_address: string;
+  @Column({ name: 'detailed_address' })
+  detailedAddress: string;
 
   @Column()
   agree: boolean;
@@ -50,6 +50,6 @@ export class Inquiry {
   @Column()
   password: string;
 
-  @CreateDateColumn({ name: 'createdAt' })
-  created_at: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 }

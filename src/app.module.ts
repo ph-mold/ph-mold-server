@@ -17,6 +17,7 @@ import { AuthModule } from './modules/admin/auth/auth.module';
 import { AdminTagModule } from './modules/admin/tag/admin.tag.module';
 import { AdminSpecModule } from './modules/admin/spec/admin.spec.module';
 import { AdminSampleRequestModule } from './modules/admin/sample-request/admin.sample-request.module';
+import { InquiryModule } from './modules/inquiry/inquiry.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AdminSampleRequestModule } from './modules/admin/sample-request/admin.s
     TagModule,
     CategoryModule,
     SampleRequestModule,
+    InquiryModule,
     AdminProductSpecModule,
     AdminProductTagModule,
     FileModule,

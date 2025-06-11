@@ -1,10 +1,22 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Response } from 'express';
 import { AdminLabelStickerService } from './admin.label-sticker.service';
 import { LabelStickerRequestDto } from './dto/label-sticker-request.dto';
+import { Role, Roles } from 'src/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @ApiTags('라벨 스티커')
+@ApiBearerAuth('access-token')
+@Roles(Role.Admin, Role.User)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('admin/label-sticker')
 export class AdminLabelStickerController {
   constructor(private readonly labelStickerService: AdminLabelStickerService) {}

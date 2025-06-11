@@ -18,6 +18,7 @@ import { AdminTagModule } from './modules/admin/tag/admin.tag.module';
 import { AdminSpecModule } from './modules/admin/spec/admin.spec.module';
 import { AdminSampleRequestModule } from './modules/admin/sample-request/admin.sample-request.module';
 import { InquiryModule } from './modules/inquiry/inquiry.module';
+import { AdminLabelStickerModule } from './modules/admin/label-sticker/admin.label-sticker.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { InquiryModule } from './modules/inquiry/inquiry.module';
     AdminTagModule,
     AdminSpecModule,
     AdminSampleRequestModule,
+    AdminLabelStickerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -14,12 +14,18 @@ async function bootstrap() {
     'http://api.phmold.co.kr',
     'http://218.148.21.205',
     'http://localhost:5123',
+    'http://192.168.0.0:3000',
+    'http://192.168.0.0:3001',
+    'http://192.168.0.0:5123',
   ];
 
   const developmentWhitelist = [
     'http://localhost:5123',
     'http://localhost:3000',
     'http://localhost:3001',
+    'http://192.168.0.0:3000',
+    'http://192.168.0.0:3001',
+    'http://192.168.0.0:5123',
   ];
 
   const whitelist =
@@ -32,7 +38,12 @@ async function bootstrap() {
       origin: string | undefined,
       callback: (err: Error | null, allow?: boolean) => void,
     ) {
-      if (!origin || whitelist.includes(origin)) {
+      // 내부망 IP 체크
+      const isInternalIP = origin?.match(
+        /^http:\/\/(192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|10\.)/,
+      );
+
+      if (!origin || whitelist.includes(origin) || isInternalIP) {
         callback(null, true);
       } else {
         callback(new Error('CORS 차단: 허용되지 않은 origin입니다.'));

@@ -191,8 +191,9 @@ export class AdminLabelStickerService {
     const options = {
       format: 'A4',
       printBackground: true,
-      args: ['--no-sandbox'],
-      executablePath: '/usr/bin/chromium',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath:
+        process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
     };
 
     const file = { content: this.generateHtml(data) };

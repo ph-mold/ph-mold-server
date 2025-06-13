@@ -191,9 +191,17 @@ export class AdminLabelStickerService {
     const options = {
       format: 'A4',
       printBackground: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-web-security',
+        '--disable-features=IsolateOrigins,site-per-process',
+      ],
       executablePath:
         process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
+      timeout: 60000, // 60초 타임아웃
     };
 
     const file = { content: this.generateHtml(data) };

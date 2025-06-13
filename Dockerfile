@@ -28,7 +28,8 @@ RUN apk add --no-cache \
     freetype-dev \
     harfbuzz \
     ca-certificates \
-    ttf-freefont
+    ttf-freefont \
+    font-noto-cjk
 
 # Puppeteer 환경 변수 설정
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \

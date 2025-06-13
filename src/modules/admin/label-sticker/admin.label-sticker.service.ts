@@ -60,6 +60,8 @@ export class AdminLabelStickerService {
               margin: 0;
               padding: 0;
               box-sizing: border-box;
+              line-height: 1.2;
+              letter-spacing: -0.02em;
             }
             
             @page {
@@ -83,30 +85,25 @@ export class AdminLabelStickerService {
             }
 
             .cell {
-              width: 100%;
-              height: 100%;
+              width: 91.8mm;
+              height: 53.4mm;
               padding: 2mm;
             }
 
             .cell.has-content {
-              border-left: 0.3mm solid black;
-              border-right: 0.3mm solid black;
-              border-top: 0.3mm solid black;
-            }
-
-            .cell.has-content:nth-last-child(-n+3) {
-              border-bottom: 0.3mm solid black;
+              border: 0.3mm solid black;
             }
 
             .center-cell {
+              width: 8mm;
               border: none !important;
               background-color: transparent;
             }
 
             .inner-table {
               display: grid;
-              grid-template-columns: 1fr 3fr;
-              grid-template-rows: repeat(6, 1fr) 1.8fr;
+              grid-template-columns: 25mm 1fr;
+              grid-template-rows: repeat(7, 1fr);
               height: 100%;
               background-color: white;
               position: relative;
@@ -116,24 +113,26 @@ export class AdminLabelStickerService {
 
             .inner-table > div {
               position: relative;
-              padding: 4px;
+              padding: 4px 8px;
               display: flex;
               align-items: center;
               border: 1px solid #999;
+              min-height: 6.5mm;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
 
             .inner-table > div:nth-child(odd) {
               font-weight: bold;
               background-color: #f8f8f8;
-              display: flex;
               justify-content: space-between;
-              padding: 4px 8px;
             }
 
             .value-cell {
               justify-content: center !important;
               text-align: center;
-              font-size:14px;
+              font-size: 14px;
             }
 
             .inner-table > div:last-child {
@@ -147,6 +146,7 @@ export class AdminLabelStickerService {
               font-size: 14px;
               background-color: white !important;
               justify-content: center;
+              border-top: 2px solid #999;
             }
 
             @media print {

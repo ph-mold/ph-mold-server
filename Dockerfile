@@ -20,4 +20,4 @@ CMD ["node", "dist/main"]
 # NestJS 기본 포트 (expose만 하면 nginx가 프록시 처리)
 EXPOSE 3001
 
-RUN apt-get update && apt-get install -y chromium
+RUN apk add --no-cache chromium

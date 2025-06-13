@@ -187,10 +187,12 @@ export class AdminLabelStickerService {
     `;
   }
 
-  async generatePDF(data: LabelStickerDto[] = []): Promise<Buffer> {
+  private async generatePDF(data: LabelStickerDto[] = []): Promise<Buffer> {
     const options = {
       format: 'A4',
       printBackground: true,
+      args: ['--no-sandbox'],
+      executablePath: '/usr/bin/chromium',
     };
 
     const file = { content: this.generateHtml(data) };

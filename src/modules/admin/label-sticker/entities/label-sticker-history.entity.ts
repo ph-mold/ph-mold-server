@@ -10,8 +10,8 @@ export class LabelStickerHistory {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255 })
-  file_name: string;
+  @Column({ name: 'file_name', type: 'varchar', length: 255 })
+  fileName: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

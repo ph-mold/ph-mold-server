@@ -18,7 +18,7 @@ export class AdminLabelStickerService {
     private readonly pdfGenerator: LabelStickerPdfGenerator,
   ) {}
 
-  async getPDFLS3510(
+  async createPDFLS3510WithHistory(
     data: LabelStickerDto[],
     options: GeneratePDFOptions,
   ): Promise<Buffer> {
@@ -33,6 +33,10 @@ export class AdminLabelStickerService {
     });
 
     return buffer;
+  }
+
+  async regeneratePDFLS3510(data: LabelStickerDto[]): Promise<Buffer> {
+    return this.pdfGenerator.generatePDF(data);
   }
 
   async findAllHistories(

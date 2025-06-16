@@ -72,7 +72,7 @@ export class AdminLabelStickerController {
     description: '라벨 스티커 히스토리 목록을 성공적으로 조회했습니다.',
     type: PaginatedLabelStickerHistoriesResponseDto,
   })
-  async findAllHistories(
+  async getLabelStickerHistories(
     @Query() dto: GetLabelStickerHistoriesDto,
   ): Promise<PaginatedLabelStickerHistoriesResponseDto> {
     return this.labelStickerService.findAllHistories(dto);

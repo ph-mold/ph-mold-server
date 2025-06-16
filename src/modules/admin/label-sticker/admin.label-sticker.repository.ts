@@ -8,13 +8,13 @@ import { GetLabelStickerHistoriesDto } from './dto/get-label-sticker-histories.d
 export class AdminLabelStickerRepository {
   constructor(
     @InjectRepository(LabelStickerHistory)
-    private readonly repo: Repository<LabelStickerHistory>,
+    private readonly historyRepo: Repository<LabelStickerHistory>,
   ) {}
 
   async findAllWithPagination(
     dto: GetLabelStickerHistoriesDto,
   ): Promise<[LabelStickerHistory[], number]> {
-    return this.repo.findAndCount({
+    return this.historyRepo.findAndCount({
       skip: (dto.page - 1) * dto.limit,
       take: dto.limit,
       order: {
@@ -26,6 +26,6 @@ export class AdminLabelStickerRepository {
   async save(
     history: Partial<LabelStickerHistory>,
   ): Promise<LabelStickerHistory> {
-    return this.repo.save(history);
+    return this.historyRepo.save(history);
   }
 }

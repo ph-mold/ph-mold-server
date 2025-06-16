@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { LabelStickerHistory } from './entities/label-sticker-history.entity';
 import { GetLabelStickerHistoriesDto } from './dto/get-label-sticker-histories.dto';
 import { PaginatedLabelStickerHistoriesResponseDto } from './dto/paginated-label-sticker-histories-response.dto';
 import { AdminLabelStickerRepository } from './admin.label-sticker.repository';
@@ -10,7 +8,6 @@ import { LabelStickerPdfGenerator } from './label-sticker-pdf.generator';
 @Injectable()
 export class AdminLabelStickerService {
   constructor(
-    @InjectRepository(LabelStickerHistory)
     private readonly labelStickerRepository: AdminLabelStickerRepository,
     private readonly pdfGenerator: LabelStickerPdfGenerator,
   ) {}

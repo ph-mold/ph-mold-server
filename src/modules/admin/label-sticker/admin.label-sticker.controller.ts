@@ -22,6 +22,8 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { GetLabelStickerHistoriesDto } from './dto/get-label-sticker-histories.dto';
 import { PaginatedLabelStickerHistoriesResponseDto } from './dto/paginated-label-sticker-histories-response.dto';
+import { User } from 'src/decorators/user.decorator';
+import { AuthPayload } from '../auth/auth.type';
 
 @ApiTags('라벨 스티커')
 @ApiBearerAuth('access-token')
@@ -55,8 +57,14 @@ export class AdminLabelStickerController {
   async getPDFLS3510(
     @Body() request: LabelStickerRequestDto,
     @Res() res: Response,
+    @User() user: AuthPayload,
   ): Promise<void> {
-    const buffer = await this.labelStickerService.getPDFLS3510(request.data);
+    const buffer = await this.labelStickerService.getPDFLS3510(request.data, {
+      filename: request.filename,
+      operator: user.name,
+      labelType: 'LS-3510',
+    });
+
     const encodedFilename = encodeURIComponent(request.filename);
     res.set({
       'Content-Type': 'application/pdf',
@@ -72,7 +80,7 @@ export class AdminLabelStickerController {
     description: '라벨 스티커 히스토리 목록을 성공적으로 조회했습니다.',
     type: PaginatedLabelStickerHistoriesResponseDto,
   })
-  async getLabelStickerHistories(
+  async findAllHistories(
     @Query() dto: GetLabelStickerHistoriesDto,
   ): Promise<PaginatedLabelStickerHistoriesResponseDto> {
     return this.labelStickerService.findAllHistories(dto);

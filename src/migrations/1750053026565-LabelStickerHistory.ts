@@ -35,7 +35,7 @@ export class LabelStickerHistory1750053026565 implements MigrationInterface {
           },
           {
             name: 'label_data',
-            type: 'jsonb',
+            type: 'json',
           },
         ],
       }),

@@ -22,6 +22,6 @@ export class LabelStickerHistory {
   @Column({ name: 'label_type', type: 'varchar', length: 50 })
   labelType: string;
 
-  @Column({ name: 'label_data', type: 'jsonb' })
+  @Column({ name: 'label_data', type: 'json' })
   labelData: Record<string, any>;
 }

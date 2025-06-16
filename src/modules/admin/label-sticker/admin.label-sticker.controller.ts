@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Res,
+  UseGuards,
+  Get,
+  Query,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -12,6 +20,8 @@ import { LabelStickerRequestDto } from './dto/label-sticker-request.dto';
 import { Role, Roles } from 'src/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
+import { GetLabelStickerHistoriesDto } from './dto/get-label-sticker-histories.dto';
+import { PaginatedLabelStickerHistoriesResponseDto } from './dto/paginated-label-sticker-histories-response.dto';
 
 @ApiTags('라벨 스티커')
 @ApiBearerAuth('access-token')
@@ -53,5 +63,18 @@ export class AdminLabelStickerController {
       'Content-Disposition': `attachment; filename*=UTF-8''${encodedFilename}.pdf`,
     });
     res.send(buffer);
+  }
+
+  @Get('histories')
+  @ApiOperation({ summary: '라벨 스티커 히스토리 목록 조회' })
+  @ApiResponse({
+    status: 200,
+    description: '라벨 스티커 히스토리 목록을 성공적으로 조회했습니다.',
+    type: PaginatedLabelStickerHistoriesResponseDto,
+  })
+  async findAllHistories(
+    @Query() dto: GetLabelStickerHistoriesDto,
+  ): Promise<PaginatedLabelStickerHistoriesResponseDto> {
+    return this.labelStickerService.findAllHistories(dto);
   }
 }

@@ -1,17 +1,23 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+  Body,
+  Controller,
+  Post,
+  Res,
+  UseGuards,
+  Get,
+  Query,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AdminLabelStickerService } from './admin.label-sticker.service';
 import { LabelStickerRequestDto } from './dto/label-sticker-request.dto';
 import { Role, Roles } from 'src/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
+import { GetLabelStickerHistoriesDto } from './dto/get-label-sticker-histories.dto';
+import { PaginatedLabelStickerHistoriesResponseDto } from './dto/paginated-label-sticker-histories-response.dto';
+import { AuthPayload } from 'src/modules/admin/auth/auth.type';
+import { User } from 'src/decorators/user.decorator';
 
 @ApiTags('라벨 스티커')
 @ApiBearerAuth('access-token')
@@ -22,36 +28,55 @@ export class AdminLabelStickerController {
   constructor(private readonly labelStickerService: AdminLabelStickerService) {}
 
   @Post('ls-3510')
-  @ApiOperation({
-    summary: 'LS-3510 라벨 스티커 PDF 생성',
-    description: 'A4 용지에 맞춰진 라벨 스티커 PDF를 생성합니다.',
-  })
   @ApiBody({
     type: LabelStickerRequestDto,
-    description: '라벨 스티커 데이터와 저장할 파일명',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'PDF 파일이 성공적으로 생성되었습니다.',
-    content: {
-      'application/pdf': {
-        schema: {
-          type: 'string',
-          format: 'binary',
-        },
-      },
-    },
-  })
-  async getPDFLS3510(
+  async createPDFLS3510(
     @Body() request: LabelStickerRequestDto,
     @Res() res: Response,
+    @User() user: AuthPayload,
   ): Promise<void> {
-    const buffer = await this.labelStickerService.getPDFLS3510(request.data);
+    const buffer = await this.labelStickerService.createPDFLS3510WithHistory(
+      request.data,
+      {
+        filename: request.filename,
+        operator: user.name,
+        labelType: 'LS-3510',
+      },
+    );
+
     const encodedFilename = encodeURIComponent(request.filename);
     res.set({
       'Content-Type': 'application/pdf',
       'Content-Disposition': `attachment; filename*=UTF-8''${encodedFilename}.pdf`,
     });
     res.send(buffer);
+  }
+
+  @Post('ls-3510/regenerate')
+  @ApiBody({
+    type: LabelStickerRequestDto,
+  })
+  async regeneratePDFLS3510(
+    @Body() request: LabelStickerRequestDto,
+    @Res() res: Response,
+  ): Promise<void> {
+    const buffer = await this.labelStickerService.regeneratePDFLS3510(
+      request.data,
+    );
+
+    const encodedFilename = encodeURIComponent(request.filename);
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename*=UTF-8''${encodedFilename}.pdf`,
+    });
+    res.send(buffer);
+  }
+
+  @Get('histories')
+  async findAllHistories(
+    @Query() dto: GetLabelStickerHistoriesDto,
+  ): Promise<PaginatedLabelStickerHistoriesResponseDto> {
+    return this.labelStickerService.findAllHistories(dto);
   }
 }

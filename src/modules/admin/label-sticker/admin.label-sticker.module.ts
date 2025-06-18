@@ -4,7 +4,8 @@ import { AdminLabelStickerService } from './admin.label-sticker.service';
 import { AdminLabelStickerController } from './admin.label-sticker.controller';
 import { AdminLabelStickerRepository } from './admin.label-sticker.repository';
 import { LabelStickerHistory } from './entities/label-sticker-history.entity';
-import { LabelStickerPdfGenerator } from './label-sticker-pdf.generator';
+import { LabelStickerPdfGeneratorLS3510 } from './label-ls-3510.generator';
+import { LabelStickerPdfGeneratorLS3509 } from './label-ls-3509.generator';
 
 @Module({
   imports: [TypeOrmModule.forFeature([LabelStickerHistory])],
@@ -12,7 +13,8 @@ import { LabelStickerPdfGenerator } from './label-sticker-pdf.generator';
   providers: [
     AdminLabelStickerService,
     AdminLabelStickerRepository,
-    LabelStickerPdfGenerator,
+    LabelStickerPdfGeneratorLS3510,
+    LabelStickerPdfGeneratorLS3509,
   ],
 })
 export class AdminLabelStickerModule {}

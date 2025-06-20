@@ -103,7 +103,7 @@ export class AdminLabelStickerController {
     res.send(buffer);
   }
 
-  @Get('ls-3509/regenerate')
+  @Post('ls-3509/regenerate')
   @ApiBody({
     type: LabelStickerRequestDto<LS3509LabelStickerDto>,
   })

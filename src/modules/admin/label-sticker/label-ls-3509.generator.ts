@@ -1,17 +1,25 @@
 import * as htmlPdf from 'html-pdf-node';
-import { LabelStickerDto } from './dto/label-sticker-request.dto';
+import {
+  LS3509LabelStickerDto,
+  LS3510LabelStickerDto,
+} from './dto/label-sticker-request.dto';
 import { Injectable } from '@nestjs/common';
 
+// === 라벨/용지 레이아웃 상수 ===
+const A4_WIDTH = 210; // mm
+const A4_HEIGHT = 297; // mm
+const PADDING_TOP = 10; // mm
+const PADDING_BOTTOM = 9.8; // mm
+const PADDING_SIDE = 0.5; // mm
+const CENTER_GAP = 2; // mm
+const LABEL_COLS = 2;
+const LABEL_ROWS = 9;
+const LABEL_WIDTH = (A4_WIDTH - PADDING_SIDE * 2 - CENTER_GAP) / LABEL_COLS; // mm
+const LABEL_HEIGHT = (A4_HEIGHT - PADDING_TOP - PADDING_BOTTOM) / LABEL_ROWS; // mm
+
 @Injectable()
-export class LabelStickerPdfGenerator {
-  private readonly labels = [
-    '입고처',
-    '품명',
-    '코드',
-    '수량',
-    '중량',
-    '납품일',
-  ];
+export class LabelStickerPdfGeneratorLS3509 {
+  private readonly labels = ['업체명', '제품명', '규격', '수량'];
 
   private wrapWithSpans(text: string): string {
     return text
@@ -20,7 +28,7 @@ export class LabelStickerPdfGenerator {
       .join('');
   }
 
-  private generateTableContent(data: LabelStickerDto): string {
+  private generateTableContent(data: LS3510LabelStickerDto): string {
     if (!data || !Object.keys(data).length) {
       return '';
     }
@@ -30,8 +38,6 @@ export class LabelStickerPdfGenerator {
       data.value2 || '',
       data.value3 || '',
       data.value4 || '',
-      data.value5 || '',
-      data.value6 || '',
     ];
 
     return `
@@ -45,7 +51,7 @@ export class LabelStickerPdfGenerator {
     `;
   }
 
-  private generateHtml(data: LabelStickerDto[]): string {
+  private generateHtml(data: LS3510LabelStickerDto[]): string {
     return `
       <!DOCTYPE html>
       <html>
@@ -61,45 +67,46 @@ export class LabelStickerPdfGenerator {
             }
             
             @page {
-              size: A4;
+              size: ${A4_WIDTH}mm ${A4_HEIGHT}mm;
               margin: 0;
             }
 
             body {
-              width: 210mm;
-              height: 297mm;
-              padding: 14.5mm 9.9mm 16.5mm 9.9mm;
+              width: ${A4_WIDTH}mm;
+              height: ${A4_HEIGHT}mm;
+              padding: ${PADDING_TOP}mm ${PADDING_SIDE}mm ${PADDING_BOTTOM}mm ${PADDING_SIDE}mm;
             }
 
             .container {
               width: 100%;
               height: 100%;
               display: grid;
-              grid-template-columns: 91.8mm 8mm 91.8mm;
-              grid-template-rows: repeat(5, 53.4mm);
+              grid-template-columns: ${LABEL_WIDTH}mm ${CENTER_GAP}mm ${LABEL_WIDTH}mm;
+              grid-template-rows: repeat(${LABEL_ROWS}, ${LABEL_HEIGHT}mm);
               gap: 0;
             }
 
             .cell {
-              width: 91.8mm;
-              height: 53.4mm;
-              padding: 2mm;
+              width: ${LABEL_WIDTH}mm;
+              height: ${LABEL_HEIGHT}mm;
+              padding: 1.2mm;
+              box-sizing: border-box;
             }
 
             .cell.has-content {
-              border: 0.3mm solid black;
+              border: 0.3mm solid #666;
             }
 
             .center-cell {
-              width: 8mm;
+              width: ${CENTER_GAP}mm;
               border: none !important;
               background-color: transparent;
             }
 
             .inner-table {
               display: grid;
-              grid-template-columns: 25mm 1fr;
-              grid-template-rows: repeat(7, 1fr);
+              grid-template-columns: 28mm 1fr;
+              grid-template-rows: repeat(5, 1fr);
               height: 100%;
               background-color: white;
               position: relative;
@@ -109,11 +116,10 @@ export class LabelStickerPdfGenerator {
 
             .inner-table > div {
               position: relative;
-              padding: 4px 8px;
+              padding: 3px 8px;
               display: flex;
               align-items: center;
-              border: 1px solid #999;
-              min-height: 6.5mm;
+              border: 0.2mm solid #999;
               overflow: hidden;
               white-space: nowrap;
               text-overflow: ellipsis;
@@ -123,12 +129,14 @@ export class LabelStickerPdfGenerator {
               font-weight: bold;
               background-color: #f8f8f8;
               justify-content: space-between;
+              padding-right: 12px;
             }
 
             .value-cell {
               justify-content: center !important;
               text-align: center;
               font-size: 14px;
+              padding: 3px 12px !important;
             }
 
             .inner-table > div:last-child {
@@ -159,7 +167,7 @@ export class LabelStickerPdfGenerator {
         </head>
         <body>
           <div class="container">
-            ${Array(15)
+            ${Array(LABEL_ROWS * LABEL_COLS + LABEL_ROWS * (LABEL_COLS - 1))
               .fill(null)
               .map((_, i) => {
                 const isCenter = i % 3 === 1;
@@ -183,7 +191,7 @@ export class LabelStickerPdfGenerator {
     `;
   }
 
-  async generatePDF(data: LabelStickerDto[] = []): Promise<Buffer> {
+  async generatePDF(data: LS3509LabelStickerDto[] = []): Promise<Buffer> {
     const options = {
       format: 'A4',
       printBackground: true,

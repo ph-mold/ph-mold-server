@@ -13,7 +13,11 @@ import {
 import { ApiBearerAuth, ApiBody, ApiTags, ApiParam } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AdminLabelStickerService } from './admin.label-sticker.service';
-import { LabelStickerRequestDto } from './dto/label-sticker-request.dto';
+import {
+  LabelStickerRequestDto,
+  LS3509LabelStickerDto,
+  LS3510LabelStickerDto,
+} from './dto/label-sticker-request.dto';
 import { Role, Roles } from 'src/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
@@ -32,10 +36,10 @@ export class AdminLabelStickerController {
 
   @Post('ls-3510')
   @ApiBody({
-    type: LabelStickerRequestDto,
+    type: LabelStickerRequestDto<LS3510LabelStickerDto>,
   })
   async createPDFLS3510(
-    @Body() request: LabelStickerRequestDto,
+    @Body() request: LabelStickerRequestDto<LS3510LabelStickerDto>,
     @Res() res: Response,
     @User() user: AuthPayload,
   ): Promise<void> {
@@ -44,7 +48,33 @@ export class AdminLabelStickerController {
       {
         filename: request.filename,
         operator: user.name,
-        labelType: 'LS-3510',
+        labelType: 'ls-3510',
+      },
+    );
+
+    const encodedFilename = encodeURIComponent(request.filename);
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename*=UTF-8''${encodedFilename}.pdf`,
+    });
+    res.send(buffer);
+  }
+
+  @Post('ls-3509')
+  @ApiBody({
+    type: LabelStickerRequestDto<LS3509LabelStickerDto>,
+  })
+  async createPDFLS3509(
+    @Body() request: LabelStickerRequestDto<LS3509LabelStickerDto>,
+    @Res() res: Response,
+    @User() user: AuthPayload,
+  ): Promise<void> {
+    const buffer = await this.labelStickerService.createPDFLS3509WithHistory(
+      request.data,
+      {
+        filename: request.filename,
+        operator: user.name,
+        labelType: 'ls-3509',
       },
     );
 
@@ -58,13 +88,33 @@ export class AdminLabelStickerController {
 
   @Post('ls-3510/regenerate')
   @ApiBody({
-    type: LabelStickerRequestDto,
+    type: LabelStickerRequestDto<LS3510LabelStickerDto>,
   })
   async regeneratePDFLS3510(
-    @Body() request: LabelStickerRequestDto,
+    @Body() request: LabelStickerRequestDto<LS3510LabelStickerDto>,
     @Res() res: Response,
   ): Promise<void> {
     const buffer = await this.labelStickerService.regeneratePDFLS3510(
+      request.data,
+    );
+
+    const encodedFilename = encodeURIComponent(request.filename);
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename*=UTF-8''${encodedFilename}.pdf`,
+    });
+    res.send(buffer);
+  }
+
+  @Post('ls-3509/regenerate')
+  @ApiBody({
+    type: LabelStickerRequestDto<LS3509LabelStickerDto>,
+  })
+  async regeneratePDFLS3509(
+    @Body() request: LabelStickerRequestDto<LS3509LabelStickerDto>,
+    @Res() res: Response,
+  ): Promise<void> {
+    const buffer = await this.labelStickerService.regeneratePDFLS3509(
       request.data,
     );
 

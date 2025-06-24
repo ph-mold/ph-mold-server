@@ -77,4 +77,8 @@ export class AdminLabelStickerService {
       limit: dto.limit,
     };
   }
+
+  async softDeleteHistory(id: number): Promise<boolean> {
+    return this.labelStickerRepository.softDeleteById(id);
+  }
 }

@@ -20,6 +20,9 @@ export class AdminLabelStickerRepository {
       order: {
         createdAt: 'DESC',
       },
+      where: {
+        isDeleted: false,
+      },
     });
   }
 
@@ -27,5 +30,13 @@ export class AdminLabelStickerRepository {
     history: Partial<LabelStickerHistory>,
   ): Promise<LabelStickerHistory> {
     return this.historyRepo.save(history);
+  }
+
+  async softDeleteById(id: number): Promise<boolean> {
+    const result = await this.historyRepo.update(
+      { id, isDeleted: false },
+      { isDeleted: true },
+    );
+    return result.affected > 0;
   }
 }

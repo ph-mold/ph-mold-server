@@ -24,4 +24,7 @@ export class LabelStickerHistory {
 
   @Column({ name: 'label_data', type: 'json' })
   labelData: Record<string, any>;
+
+  @Column({ name: 'is_deleted', type: 'boolean', default: false })
+  isDeleted: boolean;
 }

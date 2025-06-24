@@ -6,8 +6,11 @@ import {
   UseGuards,
   Get,
   Query,
+  Delete,
+  Param,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags, ApiParam } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AdminLabelStickerService } from './admin.label-sticker.service';
 import {
@@ -128,5 +131,14 @@ export class AdminLabelStickerController {
     @Query() dto: GetLabelStickerHistoriesDto,
   ): Promise<PaginatedLabelStickerHistoriesResponseDto> {
     return this.labelStickerService.findAllHistories(dto);
+  }
+
+  @Delete('histories/:id')
+  @ApiParam({ name: 'id', description: '히스토리 ID' })
+  async deleteHistory(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<{ success: boolean }> {
+    const success = await this.labelStickerService.softDeleteHistory(id);
+    return { success };
   }
 }

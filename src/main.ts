@@ -12,20 +12,15 @@ async function bootstrap() {
     'http://phmold.co.kr',
     'http://www.phmold.co.kr',
     'http://api.phmold.co.kr',
+    'http://portal.phmold.co.kr',
     'http://218.148.21.205',
     'http://localhost:5123',
-    'http://192.168.0.0:3000',
-    'http://192.168.0.0:3001',
-    'http://192.168.0.0:5123',
   ];
 
   const developmentWhitelist = [
     'http://localhost:5123',
     'http://localhost:3000',
     'http://localhost:3001',
-    'http://192.168.0.0:3000',
-    'http://192.168.0.0:3001',
-    'http://192.168.0.0:5123',
   ];
 
   const whitelist =

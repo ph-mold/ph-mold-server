@@ -110,7 +110,7 @@ export class LabelStickerPdfGeneratorLS3510 {
 
             .inner-table {
               display: grid;
-              grid-template-columns: 25mm 1fr;
+              grid-template-columns: 20mm 1fr;
               grid-template-rows: repeat(7, 1fr);
               height: 100%;
               background-color: white;
@@ -140,7 +140,7 @@ export class LabelStickerPdfGeneratorLS3510 {
             .value-cell {
               justify-content: center !important;
               text-align: center;
-              font-size: 14px;
+              font-size: 12px;
             }
 
             .inner-table > div:last-child {
@@ -151,7 +151,7 @@ export class LabelStickerPdfGeneratorLS3510 {
               grid-column: 1 / -1;
               text-align: center;
               font-weight: bold;
-              font-size: 14px;
+              font-size: 12px;
               background-color: white !important;
               justify-content: center;
               border-top: 2px solid #999;

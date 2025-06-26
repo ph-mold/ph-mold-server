@@ -105,12 +105,12 @@ export class LabelStickerPdfGeneratorLS3509 {
 
             .inner-table {
               display: grid;
-              grid-template-columns: 28mm 1fr;
+              grid-template-columns: 20mm 1fr;
               grid-template-rows: repeat(5, 1fr);
               height: 100%;
               background-color: white;
               position: relative;
-              font-size: 12px;
+              font-size: 10px;
               font-family: 'Arial', sans-serif;
             }
 
@@ -135,7 +135,7 @@ export class LabelStickerPdfGeneratorLS3509 {
             .value-cell {
               justify-content: center !important;
               text-align: center;
-              font-size: 14px;
+              font-size: 12px;
               padding: 3px 12px !important;
             }
 
@@ -147,7 +147,7 @@ export class LabelStickerPdfGeneratorLS3509 {
               grid-column: 1 / -1;
               text-align: center;
               font-weight: bold;
-              font-size: 14px;
+              font-size: 12px;
               background-color: white !important;
               justify-content: center;
               border-top: 2px solid #999;

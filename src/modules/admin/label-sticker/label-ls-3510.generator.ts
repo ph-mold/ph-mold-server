@@ -115,7 +115,7 @@ export class LabelStickerPdfGeneratorLS3510 {
               height: 100%;
               background-color: white;
               position: relative;
-              font-size: 12px;
+              font-size: 10px;
               font-family: 'Arial', sans-serif;
             }
 

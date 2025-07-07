@@ -1,16 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { SpecType } from 'src/modules/product/entities/spec_type.entity';
-import { Repository } from 'typeorm';
+import { GetSpecsDto } from './dto/get-specs.dto';
+import { AdminSpecRepository } from './admin.spec.repository';
 
 @Injectable()
 export class AdminSpecService {
-  constructor(
-    @InjectRepository(SpecType)
-    private readonly repo: Repository<SpecType>,
-  ) {}
+  constructor(private readonly repo: AdminSpecRepository) {}
 
-  async getSpecTypes() {
-    return this.repo.find();
+  async getSpecs() {
+    return this.repo.findAll();
+  }
+
+  async getSpecsWithPagination(dto: GetSpecsDto) {
+    const [items, total] = await this.repo.findAllWithPagination(dto);
+
+    return {
+      items,
+      total,
+      page: dto.page,
+      limit: dto.limit,
+    };
   }
 }

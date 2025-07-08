@@ -37,4 +37,16 @@ export class AdminSpecRepository {
   async delete(specId: number): Promise<void> {
     await this.repo.delete(specId);
   }
+
+  async findByKey(key: string, excludeId?: number): Promise<SpecType | null> {
+    const queryBuilder = this.repo
+      .createQueryBuilder('specType')
+      .where('specType.key = :key', { key });
+
+    if (excludeId) {
+      queryBuilder.andWhere('specType.id != :excludeId', { excludeId });
+    }
+
+    return queryBuilder.getOne();
+  }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { AdminTagRepository } from './admin.tag.repository';
 import { CreateTagDto } from './dto/create-tag.dto';
+import { GetTagsDto } from './dto/get-tags.dto';
 
 @Injectable()
 export class AdminTagService {
@@ -9,6 +10,17 @@ export class AdminTagService {
 
   async getTags() {
     return this.repo.findAll();
+  }
+
+  async getTagsWithPagination(dto: GetTagsDto) {
+    const [items, total] = await this.repo.findAllWithPagination(dto);
+
+    return {
+      items,
+      total,
+      page: dto.page,
+      limit: dto.limit,
+    };
   }
 
   async getTag(id: number) {

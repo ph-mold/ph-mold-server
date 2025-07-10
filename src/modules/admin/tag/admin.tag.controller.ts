@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -15,6 +16,7 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { AdminTagService } from './admin.tag.service';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { CreateTagDto } from './dto/create-tag.dto';
+import { GetTagsDto } from './dto/get-tags.dto';
 
 @Controller('admin/tag')
 @ApiBearerAuth('access-token')
@@ -24,7 +26,10 @@ export class AdminTagController {
   constructor(private readonly adminTagService: AdminTagService) {}
 
   @Get()
-  async getTags() {
+  async getTags(@Query() dto: GetTagsDto) {
+    if (dto.page && dto.limit) {
+      return this.adminTagService.getTagsWithPagination(dto);
+    }
     return this.adminTagService.getTags();
   }
 

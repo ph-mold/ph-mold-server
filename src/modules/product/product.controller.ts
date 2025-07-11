@@ -1,13 +1,14 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
+import { GetProductsByCategoryDto } from './dto/get-products-by-category.dto';
 
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  async getProductsByCategoryKey(@Query('category') categoryKey: string) {
-    return this.productService.getProductsByCategoryKey(categoryKey);
+  async getProductsByCategoryKey(@Query() dto: GetProductsByCategoryDto) {
+    return this.productService.getProductsByCategoryKey(dto);
   }
 
   @Get(':key/summary')

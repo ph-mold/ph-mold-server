@@ -19,7 +19,9 @@ export class ProductRepository {
   async findProductsByTagKeys(
     includeTagKeys: string[] = [],
     excludeTagKeys: string[] = [],
-  ): Promise<Product[]> {
+    page?: number,
+    limit?: number,
+  ) {
     const qb = this.productRepo
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.tags', 'tag');
@@ -55,6 +57,11 @@ export class ProductRepository {
 
         return `NOT EXISTS ${sub}`;
       }).setParameter('excludeTagKeys', excludeTagKeys);
+    }
+
+    if (page && limit) {
+      qb.skip((page - 1) * limit).take(limit);
+      return qb.getManyAndCount();
     }
 
     return qb.getMany();

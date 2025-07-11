@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
-import { Product } from './entities/product.entity';
 import { CategoryService } from '../category/category.service';
+import { GetProductsByCategoryDto } from './dto/get-products-by-category.dto';
 
 @Injectable()
 export class ProductService {
@@ -10,21 +10,40 @@ export class ProductService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async getProductsByCategoryKey(categoryKey: string) {
-    if (categoryKey === 'all') return this.getProductsByTagKeys({});
+  async getProductsByCategoryKey(dto: GetProductsByCategoryDto) {
+    if (dto.categoryKey === 'all') return this.getProductsByTagKeys({ ...dto });
     const resolveTagKeys =
-      await this.categoryService.resolveTagKeysByCategoryKey(categoryKey);
-    return this.getProductsByTagKeys(resolveTagKeys);
+      await this.categoryService.resolveTagKeysByCategoryKey(dto.categoryKey);
+    return this.getProductsByTagKeys({ ...resolveTagKeys, ...dto });
   }
 
   async getProductsByTagKeys({
     include,
     exclude,
+    page,
+    limit,
   }: {
     include?: string[];
     exclude?: string[];
-  }): Promise<Product[]> {
-    return this.productRepo.findProductsByTagKeys(include, exclude ?? []);
+    page?: number;
+    limit?: number;
+  }) {
+    if (page && limit) {
+      const [items, total] = await this.productRepo.findProductsByTagKeys(
+        include,
+        exclude ?? [],
+        page,
+        limit,
+      );
+      return {
+        items,
+        total,
+        page,
+        limit,
+      };
+    }
+
+    return await this.productRepo.findProductsByTagKeys(include, exclude ?? []);
   }
 
   async getProductSummary(key: string) {

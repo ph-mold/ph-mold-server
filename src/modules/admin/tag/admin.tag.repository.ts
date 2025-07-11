@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Tag } from 'src/modules/tag/entities/tag.entity';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { GetTagsDto } from './dto/get-tags.dto';
 
 @Injectable()
 export class AdminTagRepository {
@@ -14,6 +15,13 @@ export class AdminTagRepository {
 
   async findAll(): Promise<Tag[]> {
     return this.repo.find();
+  }
+
+  async findAllWithPagination(dto: GetTagsDto): Promise<[Tag[], number]> {
+    return this.repo.findAndCount({
+      skip: (dto.page - 1) * dto.limit,
+      take: dto.limit,
+    });
   }
 
   async findById(id: number): Promise<Tag> {

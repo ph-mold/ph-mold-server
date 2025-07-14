@@ -29,5 +29,5 @@ export class GetProductsByCategoryDto {
   })
   @IsOptional()
   @IsString()
-  categoryKey?: string;
+  category?: string;
 }

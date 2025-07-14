@@ -11,9 +11,9 @@ export class ProductService {
   ) {}
 
   async getProductsByCategoryKey(dto: GetProductsByCategoryDto) {
-    if (dto.categoryKey === 'all') return this.getProductsByTagKeys({ ...dto });
+    if (dto.category === 'all') return this.getProductsByTagKeys({ ...dto });
     const resolveTagKeys =
-      await this.categoryService.resolveTagKeysByCategoryKey(dto.categoryKey);
+      await this.categoryService.resolveTagKeysByCategoryKey(dto.category);
     return this.getProductsByTagKeys({ ...resolveTagKeys, ...dto });
   }
 

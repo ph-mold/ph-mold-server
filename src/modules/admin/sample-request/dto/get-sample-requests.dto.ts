@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsInt, IsOptional, Min } from 'class-validator';
 
-export class GetProductsByCategoryDto {
+export class GetSampleRequestsDto {
   @ApiProperty({
     description: '페이지 번호',
     required: false,
@@ -22,12 +22,4 @@ export class GetProductsByCategoryDto {
   @IsInt()
   @Min(1)
   limit?: number;
-
-  @ApiProperty({
-    description: '카테고리 키',
-    required: false,
-  })
-  @IsOptional()
-  @IsString()
-  category?: string;
 }

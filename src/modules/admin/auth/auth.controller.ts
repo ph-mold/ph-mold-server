@@ -61,7 +61,8 @@ export class AuthController {
         path: '/',
         maxAge: accessMaxAge,
         sameSite: 'lax', // strict에서 lax로 변경하여 크로스 사이트 요청 지원
-        secure: process.env.NODE_ENV === 'production', // 개발 환경에서는 false
+        secure: false,
+        // secure: process.env.NODE_ENV === 'production',
       });
 
       // 리프레시 토큰을 쿠키에 설정
@@ -70,7 +71,8 @@ export class AuthController {
         path: '/auth',
         maxAge: refreshMaxAge,
         sameSite: 'lax', // strict에서 lax로 변경
-        secure: process.env.NODE_ENV === 'production', // 개발 환경에서는 false
+        secure: false,
+        // secure: process.env.NODE_ENV === 'production',
       });
     }
 
@@ -124,7 +126,8 @@ export class AuthController {
         path: '/',
         maxAge: accessMaxAge,
         sameSite: 'lax', // strict에서 lax로 변경
-        secure: process.env.NODE_ENV === 'production', // 개발 환경에서는 false
+        secure: false,
+        // secure: process.env.NODE_ENV === 'production',
       });
 
       // 새로운 리프레시 토큰을 쿠키에 설정
@@ -133,7 +136,8 @@ export class AuthController {
         path: '/auth',
         maxAge: refreshMaxAge,
         sameSite: 'lax', // strict에서 lax로 변경
-        secure: process.env.NODE_ENV === 'production', // 개발 환경에서는 false
+        secure: false,
+        // secure: process.env.NODE_ENV === 'production',
       });
     }
 

@@ -50,18 +50,34 @@ export class AuthController {
       this.config.get<string>('JWT_REFRESH_EXPIRES_IN') || '14d',
     );
 
+    const accessMaxAge = parseExpiresInToMs(
+      this.config.get<string>('JWT_EXPIRES_IN') || '15m',
+    );
+
     if (platform !== 'desktop') {
+      // 액세스 토큰을 쿠키에 설정
+      res.cookie('access_token', accessToken, {
+        httpOnly: true,
+        path: '/',
+        maxAge: accessMaxAge,
+        sameSite: 'lax', // strict에서 lax로 변경하여 크로스 사이트 요청 지원
+        secure: false,
+        // secure: process.env.NODE_ENV === 'production',
+      });
+
+      // 리프레시 토큰을 쿠키에 설정
       res.cookie('refresh_token', refreshToken, {
         httpOnly: true,
         path: '/auth',
         maxAge: refreshMaxAge,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax', // strict에서 lax로 변경
+        secure: false,
+        // secure: process.env.NODE_ENV === 'production',
       });
     }
 
     return {
-      accessToken,
+      accessToken: platform === 'desktop' ? accessToken : undefined,
       refreshToken: platform === 'desktop' ? refreshToken : undefined,
       user,
     };
@@ -99,18 +115,34 @@ export class AuthController {
       this.config.get<string>('JWT_REFRESH_EXPIRES_IN') || '14d',
     );
 
+    const accessMaxAge = parseExpiresInToMs(
+      this.config.get<string>('JWT_EXPIRES_IN') || '15m',
+    );
+
     if (platform !== 'desktop') {
+      // 새로운 액세스 토큰을 쿠키에 설정
+      res.cookie('access_token', accessToken, {
+        httpOnly: true,
+        path: '/',
+        maxAge: accessMaxAge,
+        sameSite: 'lax', // strict에서 lax로 변경
+        secure: false,
+        // secure: process.env.NODE_ENV === 'production',
+      });
+
+      // 새로운 리프레시 토큰을 쿠키에 설정
       res.cookie('refresh_token', newRefreshToken, {
         httpOnly: true,
         path: '/auth',
         maxAge: refreshMaxAge,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax', // strict에서 lax로 변경
+        secure: false,
+        // secure: process.env.NODE_ENV === 'production',
       });
     }
 
     return {
-      accessToken,
+      accessToken: platform === 'desktop' ? accessToken : undefined,
       refreshToken: platform === 'desktop' ? newRefreshToken : undefined,
     };
   }
@@ -135,6 +167,7 @@ export class AuthController {
     }
 
     if (platform === 'web') {
+      res.clearCookie('access_token', { path: '/' });
       res.clearCookie('refresh_token', { path: '/auth' });
     }
 

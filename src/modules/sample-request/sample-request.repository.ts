@@ -29,7 +29,6 @@ export class SampleRequestRepository extends Repository<SampleRequest> {
       ...dto,
       product,
       trackingCode,
-      status: 'reception', // 초기 상태
     });
 
     return await this.save(sampleRequest);

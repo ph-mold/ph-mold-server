@@ -19,11 +19,13 @@ import { AdminSpecModule } from './modules/admin/spec/admin.spec.module';
 import { AdminSampleRequestModule } from './modules/admin/sample-request/admin.sample-request.module';
 import { InquiryModule } from './modules/inquiry/inquiry.module';
 import { AdminLabelStickerModule } from './modules/admin/label-sticker/admin.label-sticker.module';
+import { getMailerModule } from './utils/mailer.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ...getLocalStaticModules(),
+    getMailerModule(),
     DbModule,
     HealthModule,
     ProductModule,

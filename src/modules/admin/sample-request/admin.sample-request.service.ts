@@ -62,7 +62,30 @@ export class AdminSampleRequestService {
   }
 
   async completeShipped(id: number, dto: ShippedDto, user: AuthPayload) {
-    return await this.repo.completeShipped(id, dto, user);
+    const data = await this.repo.completeShipped(id, dto, user);
+
+    await this.mailerService.sendMail({
+      to: data.email,
+      subject: `[팜앤몰드] ${data.company}의 샘플 배송 접수 완료`,
+      template: 'sample-request/shipped',
+      context: {
+        customerName: data.name,
+        requestDate: formatKoreanDate(new Date(dto.shippedAt)),
+        product: data.product,
+        quantity: data.quantity,
+        shippingInfo: {
+          recipient: data.name,
+          phone: data.phone,
+          address: [data.address, data.detailedAddress]
+            .filter(Boolean)
+            .join(', '),
+        },
+        trackingNumber: dto.trackingNumber,
+        requestId: data.trackingCode,
+      },
+    });
+
+    return data;
   }
 
   async completeCompleted(id: number, dto: CompletedDto, user: AuthPayload) {

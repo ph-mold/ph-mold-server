@@ -74,7 +74,10 @@ export class AdminSampleRequestRepository {
   }
 
   async completeShipped(id: number, dto: ShippedDto, user: AuthPayload) {
-    const sampleRequest = await this.repo.findOne({ where: { id } });
+    const sampleRequest = await this.repo.findOne({
+      where: { id },
+      relations: ['product'],
+    });
     sampleRequest.addStatus('shipped');
     sampleRequest.nodeData = {
       ...sampleRequest.nodeData,

@@ -37,7 +37,10 @@ export class AdminSampleRequestRepository {
   }
 
   async completeReception(id: number, user: AuthPayload) {
-    const sampleRequest = await this.repo.findOne({ where: { id } });
+    const sampleRequest = await this.repo.findOne({
+      where: { id },
+      relations: ['product'],
+    });
     sampleRequest.addStatus('reception');
     sampleRequest.assignedUserId = user.userId;
 

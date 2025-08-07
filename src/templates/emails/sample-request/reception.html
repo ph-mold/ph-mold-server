@@ -37,6 +37,64 @@
         border-left: 4px solid #007bff;
         box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
       }
+      .info-section {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e9ecef;
+      }
+      .info-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+      .info-title {
+        color: #007bff;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+      }
+      .info-title::before {
+        content: '';
+        width: 4px;
+        height: 16px;
+        background-color: #007bff;
+        margin-right: 8px;
+        border-radius: 2px;
+      }
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f8f9fa;
+      }
+      .info-item:last-child {
+        border-bottom: none;
+      }
+      .info-label {
+        font-weight: bold;
+        color: #495057;
+        min-width: 80px;
+      }
+      .info-value {
+        color: #212529;
+        text-align: right;
+        flex: 1;
+      }
+      .product-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .product-item {
+        background-color: #f8f9fa;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border-left: 3px solid #28a745;
+      }
       .status {
         display: inline-block;
         background-color: #28a745;
@@ -86,19 +144,43 @@
       <p>샘플 요청이 성공적으로 접수되었습니다.</p>
 
       <div class="order-details">
-        <h2>요청 정보</h2>
-        <p><strong>요청일:</strong> 2024-08-06</p>
-        <p><strong>상태:</strong> <span class="status">접수완료</span></p>
+        <!-- 기본 정보 섹션 -->
+        <div class="info-section">
+          <div class="info-title">기본 정보</div>
+          <div class="info-item">
+            <span class="info-label">요청일</span>
+            <span class="info-value">2024-08-06</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">상태</span>
+            <span class="info-value"><span class="status">접수완료</span></span>
+          </div>
+        </div>
 
-        <h4>요청 제품</h4>
-        <ul>
-          <li>플라스틱 몰드 A - 2개</li>
-        </ul>
+        <!-- 제품 정보 섹션 -->
+        <div class="info-section">
+          <div class="info-title">제품 정보</div>
+          <ul class="product-list">
+            <li class="product-item">플라스틱 몰드 A - 2개</li>
+          </ul>
+        </div>
 
-        <h4>배송 정보</h4>
-        <p><strong>수령인:</strong> 홍길동</p>
-        <p><strong>연락처:</strong> 010-1234-5678</p>
-        <p><strong>주소:</strong> 서울시 강남구 테헤란로 123</p>
+        <!-- 배송 정보 섹션 -->
+        <div class="info-section">
+          <div class="info-title">배송 정보</div>
+          <div class="info-item">
+            <span class="info-label">수령인</span>
+            <span class="info-value">홍길동</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">연락처</span>
+            <span class="info-value">010-1234-5678</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">주소</span>
+            <span class="info-value">서울시 강남구 테헤란로 123</span>
+          </div>
+        </div>
 
         <div class="btn-container">
           <a

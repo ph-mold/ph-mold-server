@@ -3,10 +3,15 @@ import { SampleRequest } from '../product/entities/smaple-request.entity';
 import { DataSource, Repository } from 'typeorm';
 import { Product } from '../product/entities/product.entity';
 import { CreateSampleRequestDto } from './dto/create-sample-request.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class SampleRequestRepository extends Repository<SampleRequest> {
-  constructor(private readonly dataSource: DataSource) {
+  constructor(
+    private readonly dataSource: DataSource,
+    @InjectRepository(SampleRequest)
+    private readonly sampleRequestRepo: Repository<SampleRequest>,
+  ) {
     super(SampleRequest, dataSource.createEntityManager());
   }
 
@@ -32,5 +37,14 @@ export class SampleRequestRepository extends Repository<SampleRequest> {
     });
 
     return await this.save(sampleRequest);
+  }
+
+  async findOneByTrackingCode(
+    trackingCode: string,
+  ): Promise<SampleRequest | undefined> {
+    return await this.sampleRequestRepo.findOne({
+      where: { trackingCode },
+      relations: ['product'],
+    });
   }
 }

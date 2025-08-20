@@ -20,7 +20,7 @@ import { AdminSampleRequestModule } from './modules/admin/sample-request/admin.s
 import { InquiryModule } from './modules/inquiry/inquiry.module';
 import { AdminLabelStickerModule } from './modules/admin/label-sticker/admin.label-sticker.module';
 import { getMailerModule } from './utils/mailer.module';
-import { AdminInquiryModule } from './modules/admin/Inquiries/admin.inquiry.module';
+import { AdminInquiryModule } from './modules/admin/inquiry/admin.inquiry.module';
 
 @Module({
   imports: [

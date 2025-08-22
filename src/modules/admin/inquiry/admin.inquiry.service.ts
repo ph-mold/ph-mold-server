@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { AdminInquiryRepository } from './admin.inquiry.repository';
 import { GetInquiriesDto } from './dto/get-inquiries.dto';
 import { CreateInquiryReplyDto } from './dto/create-inquiry-reply.dto';
-import { InquiryReply } from 'src/entities/admin/inquiry-reply.entity';
+import { InquiryReply } from 'src/entities/admin';
+import { Inquiry } from 'src/entities';
+import { InquiryStatus } from 'src/entities/inquiry.entity';
 
 @Injectable()
 export class AdminInquiryService {
@@ -32,5 +34,9 @@ export class AdminInquiryService {
     createReplyDto: CreateInquiryReplyDto,
   ): Promise<InquiryReply> {
     return this.repo.createReply(inquiryId, createReplyDto);
+  }
+
+  updateStatus(inquiryId: number, status: InquiryStatus): Promise<Inquiry> {
+    return this.repo.updateStatus(inquiryId, status);
   }
 }

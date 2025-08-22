@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { GetInquiriesDto } from './dto/get-inquiries.dto';
 import { CreateInquiryReplyDto } from './dto/create-inquiry-reply.dto';
 import { ReplyType } from 'src/entities/admin/inquiry-reply.entity';
+import { InquiryStatus } from 'src/entities/inquiry.entity';
 
 @Injectable()
 export class AdminInquiryRepository {
@@ -49,5 +50,13 @@ export class AdminInquiryRepository {
     });
 
     return this.replyRepo.save(reply);
+  }
+
+  async updateStatus(
+    inquiryId: number,
+    status: InquiryStatus,
+  ): Promise<Inquiry> {
+    await this.inquiryRepo.update(inquiryId, { status });
+    return this.inquiryRepo.findOne({ where: { id: inquiryId } });
   }
 }

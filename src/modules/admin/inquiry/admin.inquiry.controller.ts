@@ -24,6 +24,8 @@ import { CreateInquiryReplyDto } from './dto/create-inquiry-reply.dto';
 import { UpdateInquiryStatusDto } from './dto/update-inquiry-status.dto';
 import { InquiryReply } from 'src/entities/admin';
 import { Inquiry } from 'src/entities';
+import { AuthPayload } from '../auth/auth.type';
+import { User } from 'src/decorators/user.decorator';
 
 @ApiTags('Admin Inquiry')
 @Controller('admin/inquiry')
@@ -56,8 +58,9 @@ export class AdminInquiryController {
   async createReply(
     @Param('id', ParseIntPipe) inquiryId: number,
     @Body() createReplyDto: CreateInquiryReplyDto,
+    @User() user: AuthPayload,
   ): Promise<InquiryReply> {
-    return this.service.createReply(inquiryId, createReplyDto);
+    return this.service.createReply(inquiryId, createReplyDto, user);
   }
 
   @Patch(':id/status')

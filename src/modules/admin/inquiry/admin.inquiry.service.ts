@@ -5,6 +5,7 @@ import { CreateInquiryReplyDto } from './dto/create-inquiry-reply.dto';
 import { InquiryReply } from 'src/entities/admin';
 import { Inquiry } from 'src/entities';
 import { InquiryStatus } from 'src/entities/inquiry.entity';
+import { AuthPayload } from '../auth/auth.type';
 
 @Injectable()
 export class AdminInquiryService {
@@ -32,8 +33,9 @@ export class AdminInquiryService {
   async createReply(
     inquiryId: number,
     createReplyDto: CreateInquiryReplyDto,
+    user: AuthPayload,
   ): Promise<InquiryReply> {
-    return this.repo.createReply(inquiryId, createReplyDto);
+    return this.repo.createReply(inquiryId, createReplyDto, user);
   }
 
   updateStatus(inquiryId: number, status: InquiryStatus): Promise<Inquiry> {

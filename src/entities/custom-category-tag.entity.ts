@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { CustomCategory } from './custom-category.entity';
-import { Tag } from 'src/modules/tag/entities/tag.entity';
+import { Tag } from 'src/entities/tag.entity';
 
 @Entity('custom_category_tags')
 export class CustomCategoryTag {

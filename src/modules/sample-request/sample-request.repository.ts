@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { SampleRequest } from '../product/entities/smaple-request.entity';
 import { DataSource, Repository } from 'typeorm';
-import { Product } from '../product/entities/product.entity';
+import { Product, SampleRequest } from 'src/entities';
 import { CreateSampleRequestDto } from './dto/create-sample-request.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 

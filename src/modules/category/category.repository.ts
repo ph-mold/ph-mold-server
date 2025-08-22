@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository } from 'typeorm';
-import { CustomCategory } from './entities/custom-category.entity';
-import { CustomCategoryTag } from './entities/custom-category-tag.entity';
+import { CustomCategory } from 'src/entities/custom-category.entity';
+import { CustomCategoryTag } from 'src/entities/custom-category-tag.entity';
 import { CreateCustomCategoryDto } from './dto';
-import { Tag } from '../tag/entities/tag.entity';
+import { Tag } from 'src/entities';
 
 @Injectable()
 export class CategoryRepository {

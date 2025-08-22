@@ -3,7 +3,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { InquiryReply } from './admin';
 
 export enum InquiryStatus {
   PENDING = 'PENDING',
@@ -52,4 +54,8 @@ export class Inquiry {
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
+
+  // 답변과의 관계
+  @OneToMany(() => InquiryReply, (reply) => reply.inquiry)
+  replies: InquiryReply[];
 }

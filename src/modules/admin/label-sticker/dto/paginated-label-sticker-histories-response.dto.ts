@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { LabelStickerHistory } from '../entities/label-sticker-history.entity';
+import { LabelStickerHistory } from '../../../../entities/admin/label-sticker-history.entity';
 
 export class PaginatedLabelStickerHistoriesResponseDto {
   @ApiProperty({ description: '전체 항목 수' })

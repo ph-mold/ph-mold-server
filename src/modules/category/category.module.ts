@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CustomCategory } from './entities/custom-category.entity';
-import { CustomCategoryTag } from './entities/custom-category-tag.entity';
+import { CustomCategory } from 'src/entities/custom-category.entity';
+import { CustomCategoryTag } from 'src/entities/custom-category-tag.entity';
 import { CategoryController } from './category.controller';
-import { Product } from '../product/entities/product.entity';
+import { Product } from 'src/entities';
 import { CategoryService } from './category.service';
 import { CategoryRepository } from './category.repository';
 import { TagModule } from '../tag/tag.module';

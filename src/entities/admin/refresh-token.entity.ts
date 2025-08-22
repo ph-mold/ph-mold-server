@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
+import { User } from 'src/entities/admin/user.entity';
 
 @Unique(['user'])
 @Entity('refresh_tokens')

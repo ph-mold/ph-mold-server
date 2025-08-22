@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Inquiry } from './entities/inquiry.entity';
+import { Inquiry } from 'src/entities';
 import { CreateInquiryDto } from './dto/create-inquiry.dto';
 import { GetInquiriesDto } from './dto/get-inquiries.dto';
 import {

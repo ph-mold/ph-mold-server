@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Inquiry } from '../entities/inquiry.entity';
+import { Inquiry } from '../../../entities/inquiry.entity';
 
 export class InquiryResponseDto {
   @ApiProperty({ description: '문의 ID' })

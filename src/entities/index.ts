@@ -1,0 +1,11 @@
+export { CustomCategory } from './custom-category.entity';
+export { CustomCategoryTag } from './custom-category-tag.entity';
+export { Product } from './product.entity';
+export { ProductDetail } from './product-detail.entity';
+export { ProductImage } from './product-image.entity';
+export { ProductSpec } from './product-spec.entity';
+export { SampleRequest } from './sample-request.entity';
+export { SpecType } from './spec_type.entity';
+export { UploadedFile } from './uploaded-file.entity';
+export { Tag } from './tag.entity';
+export { Inquiry } from './inquiry.entity';

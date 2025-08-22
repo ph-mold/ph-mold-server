@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CategoryRepository } from './category.repository';
-import { CustomCategory } from './entities/custom-category.entity';
+import { CustomCategory } from 'src/entities';
 import { CreateCustomCategoryDto } from './dto';
 import { TagRepository } from '../tag/tag.repositroy';
 

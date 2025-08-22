@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SampleRequestController } from './sample-request.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SampleRequestService } from './sample-request.service';
-import { SampleRequest } from '../product/entities/smaple-request.entity';
+import { SampleRequest } from 'src/entities';
 import { SampleRequestRepository } from './sample-request.repository';
 
 @Module({

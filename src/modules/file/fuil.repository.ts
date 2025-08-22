@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LessThan, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UploadedFile } from './entities/uploaded-file.entity';
+import { UploadedFile } from 'src/entities';
 
 @Injectable()
 export class FileRepository {

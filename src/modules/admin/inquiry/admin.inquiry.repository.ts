@@ -37,6 +37,8 @@ export class AdminInquiryRepository {
   async findOne(id: number) {
     return this.inquiryRepo.findOne({
       where: { id },
+      relations: ['replies'],
+      order: { replies: { createdAt: 'ASC' } },
     });
   }
 

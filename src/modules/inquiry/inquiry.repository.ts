@@ -32,6 +32,8 @@ export class InquiryRepository extends Repository<Inquiry> {
   async findInquiryById(id: number): Promise<Inquiry | null> {
     return this.findOne({
       where: { id },
+      relations: ['replies'],
+      order: { replies: { createdAt: 'ASC' } },
     });
   }
 }

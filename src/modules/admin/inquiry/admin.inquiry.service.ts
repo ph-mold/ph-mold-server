@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { AdminInquiryRepository } from './admin.inquiry.repository';
 import { GetInquiriesDto } from './dto/get-inquiries.dto';
+import { CreateInquiryReplyDto } from './dto/create-inquiry-reply.dto';
+import { InquiryReply } from 'src/entities/admin/inquiry-reply.entity';
 
 @Injectable()
 export class AdminInquiryService {
@@ -23,5 +25,12 @@ export class AdminInquiryService {
 
   async getInquiry(id: number) {
     return this.repo.findOne(id);
+  }
+
+  async createReply(
+    inquiryId: number,
+    createReplyDto: CreateInquiryReplyDto,
+  ): Promise<InquiryReply> {
+    return this.repo.createReply(inquiryId, createReplyDto);
   }
 }

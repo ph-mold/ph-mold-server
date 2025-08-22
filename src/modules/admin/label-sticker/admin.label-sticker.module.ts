@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminLabelStickerService } from './admin.label-sticker.service';
 import { AdminLabelStickerController } from './admin.label-sticker.controller';
 import { AdminLabelStickerRepository } from './admin.label-sticker.repository';
-import { LabelStickerHistory } from './entities/label-sticker-history.entity';
+import { LabelStickerHistory } from 'src/entities/admin';
 import { LabelStickerPdfGeneratorLS3510 } from './label-ls-3510.generator';
 import { LabelStickerPdfGeneratorLS3509 } from './label-ls-3509.generator';
 

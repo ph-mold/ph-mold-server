@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SpecType } from 'src/modules/product/entities/spec_type.entity';
+import { SpecType } from 'src/entities';
 import { Repository } from 'typeorm';
 import { GetSpecsDto } from './dto/get-specs.dto';
 import { CreateSpecDto } from './dto/create-spec.dto';

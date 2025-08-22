@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { InquiryService } from './inquiry.service';
 import { CreateInquiryDto } from './dto/create-inquiry.dto';
-import { Inquiry } from './entities/inquiry.entity';
+import { Inquiry } from 'src/entities';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetInquiriesDto } from './dto/get-inquiries.dto';
 import { PaginatedInquiriesResponseDto } from './dto/inquiry-response.dto';

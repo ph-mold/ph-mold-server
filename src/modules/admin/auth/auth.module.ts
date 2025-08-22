@@ -5,7 +5,7 @@ import { UserModule } from '../user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RefreshToken } from './entities/refresh-token.entity';
+import { RefreshToken } from 'src/entities/admin';
 import { RefreshTokenRepository } from './refresh-token-repository';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';

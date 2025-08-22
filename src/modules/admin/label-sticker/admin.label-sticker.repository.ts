@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LabelStickerHistory } from './entities/label-sticker-history.entity';
+import { LabelStickerHistory } from 'src/entities/admin';
 import { Repository } from 'typeorm';
 import { GetLabelStickerHistoriesDto } from './dto/get-label-sticker-histories.dto';
 

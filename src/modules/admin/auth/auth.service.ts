@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../user/entities/user.entity';
+import { User } from 'src/entities/admin';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { RefreshTokenRepository } from './refresh-token-repository';

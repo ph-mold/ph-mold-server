@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SampleRequest } from 'src/modules/product/entities/smaple-request.entity';
+import { SampleRequest } from 'src/entities';
 import { AdminSampleRequestService } from './admin.sample-request.service';
 import { AdminSampleRequestController } from './admin.sample-request.controller';
 import { Module } from '@nestjs/common';

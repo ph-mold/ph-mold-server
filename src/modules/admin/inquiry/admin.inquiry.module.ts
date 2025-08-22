@@ -1,6 +1,6 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { Inquiry } from 'src/modules/inquiry/entities/inquiry.entity';
+import { Inquiry } from 'src/entities';
 import { AdminInquiryService } from './admin.inquiry.service';
 import { AdminInquiryRepository } from './admin.inquiry.repository';
 import { AdminInquiryController } from './admin.inquiry.controller';

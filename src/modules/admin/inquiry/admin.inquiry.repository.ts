@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Inquiry } from 'src/modules/inquiry/entities/inquiry.entity';
+import { Inquiry } from 'src/entities';
 import { Repository } from 'typeorm';
 import { GetInquiriesDto } from './dto/get-inquiries.dto';
 

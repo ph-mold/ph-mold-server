@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SampleRequest } from 'src/modules/product/entities/smaple-request.entity';
+import { SampleRequest } from 'src/entities';
 import { Repository } from 'typeorm';
 import { GetSampleRequestsDto } from './dto/get-sample-requests.dto';
 import { AuthPayload } from '../auth/auth.type';

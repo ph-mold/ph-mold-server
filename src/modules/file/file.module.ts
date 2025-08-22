@@ -3,7 +3,7 @@ import { FileService } from './file.service';
 import { FileController } from './file.controller';
 import { FileRepository } from './fuil.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UploadedFile } from './entities/uploaded-file.entity';
+import { UploadedFile } from 'src/entities';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UploadedFile])],

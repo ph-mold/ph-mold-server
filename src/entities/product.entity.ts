@@ -8,9 +8,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductSpec } from './product-spec.entity';
-import { Tag } from 'src/modules/tag/entities/tag.entity';
-import { ProductImage } from './product-image.entitiy';
-import { SampleRequest } from './smaple-request.entity';
+import { Tag } from 'src/entities/tag.entity';
+import { ProductImage } from './product-image.entity';
+import { SampleRequest } from './sample-request.entity';
 
 @Entity('products')
 export class Product {

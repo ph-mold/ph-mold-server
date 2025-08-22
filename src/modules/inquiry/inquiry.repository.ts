@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { Inquiry } from './entities/inquiry.entity';
+import { Inquiry } from 'src/entities';
 import { CreateInquiryDto } from './dto/create-inquiry.dto';
 import { GetInquiriesDto } from './dto/get-inquiries.dto';
 

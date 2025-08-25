@@ -13,6 +13,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { InquiryRepository } from './inquiry.repository';
 import { MaskUtil } from '../../common/utils/mask.util';
+import { CreateInquiryReplyDto } from './dto/create-inquiry-reply.dto';
 
 @Injectable()
 export class InquiryService {
@@ -56,5 +57,21 @@ export class InquiryService {
     }
 
     return inquiry;
+  }
+
+  async reply(id: number, dto: CreateInquiryReplyDto) {
+    const inquiry = await this.repository.findInquiryById(id);
+    if (!inquiry) {
+      throw new NotFoundException('문의를 찾을 수 없습니다.');
+    }
+    const isPasswordValid = await bcrypt.compare(
+      dto.password,
+      inquiry.password,
+    );
+    if (!isPasswordValid) {
+      throw new ForbiddenException('비밀번호가 일치하지 않습니다.');
+    }
+
+    return this.repository.createInquiryReply(id, dto);
   }
 }

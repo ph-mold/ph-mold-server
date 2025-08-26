@@ -14,6 +14,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetInquiriesDto } from './dto/get-inquiries.dto';
 import { PaginatedInquiriesResponseDto } from './dto/inquiry-response.dto';
 import { GetInquiryDto } from './dto/get-inquiry.dto';
+import { CreateInquiryReplyDto } from './dto/create-inquiry-reply.dto';
+import { InquiryReply } from 'src/entities/admin';
 
 @Controller('inquiries')
 @ApiTags('Inquiries')
@@ -64,5 +66,13 @@ export class InquiryController {
     @Body() dto: GetInquiryDto,
   ): Promise<Inquiry> {
     return this.service.findOne(id, dto.password);
+  }
+
+  @Post(':id/reply')
+  async reply(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: CreateInquiryReplyDto,
+  ): Promise<InquiryReply> {
+    return this.service.reply(id, dto);
   }
 }

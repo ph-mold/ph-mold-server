@@ -21,6 +21,7 @@ import { InquiryModule } from './modules/inquiry/inquiry.module';
 import { AdminLabelStickerModule } from './modules/admin/label-sticker/admin.label-sticker.module';
 import { getMailerModule } from './utils/mailer.module';
 import { AdminInquiryModule } from './modules/admin/inquiry/admin.inquiry.module';
+import { AdminEstimateModule } from './modules/admin/estimate/admin.estimate.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { AdminInquiryModule } from './modules/admin/inquiry/admin.inquiry.module
     AdminSampleRequestModule,
     AdminLabelStickerModule,
     AdminInquiryModule,
+    AdminEstimateModule,
   ],
   controllers: [AppController],
   providers: [AppService],

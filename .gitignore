@@ -401,4 +401,4 @@ dist
 data
 my.cnf
 contents
-src/templates/excel/estimate/**/*
+src/templates/excel/estimate

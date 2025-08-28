@@ -19,7 +19,7 @@ export function getMailerModule() {
         from: config.get<string>('MAIL_FROM'),
       },
       template: {
-        dir: path.join(process.cwd(), 'src/templates/emails'),
+        dir: path.join(process.cwd(), 'src/templates/email'),
         adapter: new EjsAdapter(),
         options: {
           strict: false,

@@ -60,7 +60,7 @@ export class AppController {
       // 1. 템플릿 파일 경로 설정
       const templatePath = path.join(
         process.cwd(),
-        'src/templates/excels/quotation/template.xlsx',
+        'src/templates/excel/estimate/template.xlsx',
       );
 
       // 2. 템플릿 파일 존재 확인
@@ -94,6 +94,7 @@ export class AppController {
             quantity: 50,
             remarks: '',
           },
+          {},
           {
             name: '샘플 아이템 3',
             spec: 'C-type',

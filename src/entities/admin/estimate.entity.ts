@@ -15,10 +15,25 @@ export enum EstimateTemplateType {
   CORPORATE = 'CORPORATE', // 법인사업자
 }
 
+export enum EstimateStatus {
+  DRAFT = 'DRAFT', // 초안
+  PENDING = 'PENDING', // 대기중
+  APPROVED = 'APPROVED', // 승인됨
+  REJECTED = 'REJECTED', // 거부됨
+  SENT = 'SENT', // 발송됨
+  COMPLETED = 'COMPLETED', // 완료됨
+}
+
 @Entity('estimates')
 export class Estimate {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ name: 'group_code' })
+  groupCode: string;
+
+  @Column({ default: 1 })
+  version: number;
 
   @Column({
     type: 'enum',
@@ -26,6 +41,15 @@ export class Estimate {
     comment: '템플릿 타입: INDIVIDUAL(개인사업자), CORPORATE(법인사업자)',
   })
   templateType: EstimateTemplateType;
+
+  @Column({
+    type: 'enum',
+    enum: EstimateStatus,
+    default: EstimateStatus.DRAFT,
+    comment:
+      '견적서 상태: DRAFT(초안), PENDING(대기중), APPROVED(승인됨), REJECTED(거부됨), SENT(발송됨), COMPLETED(완료됨)',
+  })
+  status: EstimateStatus;
 
   @Column({ name: 'client_id' })
   clientId: number;

@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
-import { Client } from '../client.entity';
+import { Customer } from './customer.entity';
 
 export enum EstimateTemplateType {
   INDIVIDUAL = 'INDIVIDUAL', // 개인사업자
@@ -51,8 +51,8 @@ export class Estimate {
   })
   status: EstimateStatus;
 
-  @Column({ name: 'client_id' })
-  clientId: number;
+  @Column({ name: 'customer_id' })
+  customerId: number;
 
   @Column({
     type: 'json',
@@ -80,9 +80,9 @@ export class Estimate {
   updatedAt: Date;
 
   // 고객과의 관계
-  @ManyToOne(() => Client, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'client_id' })
-  client: Client;
+  @ManyToOne(() => Customer, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'customer_id' })
+  customer: Customer;
 
   // 견적을 생성한 관리자와의 관계
   @ManyToOne(() => User, { onDelete: 'CASCADE' })

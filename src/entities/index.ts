@@ -9,4 +9,3 @@ export { SpecType } from './spec_type.entity';
 export { UploadedFile } from './uploaded-file.entity';
 export { Tag } from './tag.entity';
 export { Inquiry } from './inquiry.entity';
-export { Client } from './client.entity';
